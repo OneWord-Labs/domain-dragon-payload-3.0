@@ -1,0 +1,23 @@
+.socialMediaCard {
+  background: var(--theme-input-bg);
+  border: 1px solid var(--theme-elevation-150);
+  cursor: pointer;
+}
+
+.react-component {
+  div:has(> .ProseMirror-trailingBreak) {
+    margin: -10px;
+    margin-left: 30px;
+    display: hidden;
+    width: 10px;
+    position: absolute;
+    left: '100%';
+  }
+}
+.socialMediaContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  position: relative;
+}

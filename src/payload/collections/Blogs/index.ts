@@ -22,11 +22,14 @@ const Blogs: CollectionConfig = {
       required: true,
       type: 'text',
     },
+
     {
       name: 'thumbnail',
       label: 'Thumbnail',
+
+      type: 'upload',
+      relationTo: 'media',
       required: true,
-      type: 'text',
     },
 
     ...TipTapEditor({
@@ -38,6 +41,9 @@ const Blogs: CollectionConfig = {
       required: true,
       type: 'relationship',
       relationTo: 'users',
+      admin: {
+        position: 'sidebar',
+      },
     },
     {
       name: 'site',
@@ -45,24 +51,33 @@ const Blogs: CollectionConfig = {
       required: true,
       type: 'relationship',
       relationTo: 'sites',
+      admin: {
+        position: 'sidebar',
+      },
     },
     {
-      name: 'metaTitle',
-      label: 'Meta Title',
-      required: true,
-      type: 'text',
+      type: 'row',
+      fields: [
+        {
+          name: 'metaTitle',
+          label: 'Meta Title',
+          required: true,
+          type: 'text',
+        },
+        {
+          name: 'metaKeywords',
+          label: 'Meta Keywords',
+          required: true,
+          type: 'text',
+        },
+      ],
     },
     {
       name: 'metaImage',
       label: 'Meta Image',
       required: true,
-      type: 'text',
-    },
-    {
-      name: 'metaKeywords',
-      label: 'Meta Keywords',
-      required: true,
-      type: 'text',
+      type: 'upload',
+      relationTo: 'media',
     },
     {
       name: 'slug',
@@ -70,6 +85,9 @@ const Blogs: CollectionConfig = {
       required: true,
       type: 'text',
       unique: true,
+      admin: {
+        position: 'sidebar',
+      },
       hooks: {
         beforeChange: [
           ({ value, operation }) => {

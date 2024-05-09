@@ -47,6 +47,16 @@ const Sites: CollectionConfig = {
       required: true,
       type: 'relationship',
       relationTo: 'users',
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
+      name: 'logo',
+      label: 'Logo',
+      required: true,
+      type: 'upload',
+      relationTo: 'media',
     },
   ],
   access: {
@@ -76,6 +86,7 @@ const Sites: CollectionConfig = {
         })
       },
     },
+
     {
       path: '/:id/blogs/:slug',
       method: 'get',

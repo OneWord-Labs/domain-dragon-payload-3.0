@@ -1,4 +1,6 @@
-import { getBlogFromSlug, getSiteFromDomain } from '@/frontend/actions'
+import { getBlogFromSlug, getPostsForSite, getSiteFromDomain } from '@/frontend/actions'
+import BlogHeader from '@/frontend/components/BlogHeader'
+import MoreStories from '@/frontend/components/MoreStories'
 import { Metadata } from 'next'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
@@ -29,7 +31,7 @@ export async function generateMetadata({
       type: 'article',
       title: blog.metaTitle,
       images: {
-        url: blog.thumbnail,
+        url: blog.thumbnail?.url ?? '',
       },
       tags: blog.metaKeywords,
     },
@@ -53,41 +55,34 @@ const Page = async ({ params }: { params: { domain: string; slug: string } }) =>
     return notFound()
   }
 
+  const blogs = await getPostsForSite(site.id)
+
+  const adjacentBlogs = blogs.filter((b) => b.id !== blog.id)
   let blogMarkdown = blog.content.markdown
-  const titleEndIndex = blogMarkdown.indexOf('\n')
-  const firstLine = blogMarkdown.substring(0, titleEndIndex)
-  if (firstLine.startsWith('# ')) {
-    const thumbnailMarkdown = `![thumbnail](${blog.thumbnail})\n`
-    blogMarkdown =
-      blogMarkdown.substring(0, titleEndIndex + 1) +
-      thumbnailMarkdown +
-      blogMarkdown.substring(titleEndIndex + 1)
-  } else {
-    blogMarkdown = `![thumbnail](blog.thumbnail)\n${blogMarkdown}`
-  }
 
   return (
     <div className="max-w-screen-xl xl:mx-auto mx-4 min-w-screen">
+      <BlogHeader blog={blog} />
       <ReactMarkdown
-        components={
-          {
-            // img: ({ node, ...props }) => (
-            //   <Image
-            //     className="rounded-lg"
-            //     quality={100}
-            //     src={props.src!}
-            //     width={1024}
-            //     height={1024}
-            //     alt={props.alt ?? `${blog.slug}-image`}
-            //   />
-            // ),
-          }
-        }
+        components={{
+          img: ({ node, ...props }) => (
+            <Image
+              className="rounded-lg"
+              quality={100}
+              src={props.src!}
+              width={1024}
+              height={1024}
+              alt={props.alt ?? `${blog.slug}-image`}
+            />
+          ),
+        }}
         className="max-w-screen-lg lg:mx-auto mx-4 prose prose-sm md:prose-base break-words dark:prose-invert prose-p:leading-relaxed prose-pre:p-0 font-medium my-10"
         remarkPlugins={[remarkGfm]}
       >
         {blogMarkdown}
       </ReactMarkdown>
+
+      <MoreStories blogs={adjacentBlogs} />
     </div>
   )
 }

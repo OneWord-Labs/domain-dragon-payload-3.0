@@ -5,9 +5,10 @@ import path from 'path'
 import { buildConfig } from 'payload/config'
 // import sharp from 'sharp'
 import { fileURLToPath } from 'url'
-import Users from './payload/collections/Users'
 import Blogs from './payload/collections/Blogs'
+import { Media } from './payload/collections/Media/Media'
 import Sites from './payload/collections/Sites'
+import Users from './payload/collections/Users'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -16,21 +17,7 @@ export default buildConfig({
   admin: {
     user: Users.slug,
   },
-  collections: [
-    Users,
-    Blogs,
-    Sites,
-    {
-      slug: 'media',
-      fields: [
-        {
-          name: 'alt',
-          type: 'text',
-        },
-      ],
-      upload: true,
-    },
-  ],
+  collections: [Users, Blogs, Sites, Media],
   editor: lexicalEditor({}),
   // plugins: [payloadCloud()], // TODO: Re-enable when cloud supports 3.0
   secret: process.env.PAYLOAD_SECRET || '',

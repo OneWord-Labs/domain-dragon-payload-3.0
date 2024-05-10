@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import { Editor as CoreEditor } from '@tiptap/core'
 import { memo, useEffect, useState } from 'react'
@@ -35,7 +36,7 @@ export const TableOfContents = memo(({ editor, onItemClick }: TableOfContentsPro
       </div>
       {data && data.content.length > 0 ? (
         <div className="flex flex-col gap-1">
-          {data.content.map(item => (
+          {data.content.map((item) => (
             <a
               key={item.id}
               href={`#${item.id}`}

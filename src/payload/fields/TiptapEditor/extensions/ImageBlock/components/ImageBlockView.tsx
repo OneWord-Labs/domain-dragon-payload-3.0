@@ -1,3 +1,4 @@
+'use client'
 import { Node } from '@tiptap/pm/model'
 import { Editor, NodeViewWrapper } from '@tiptap/react'
 import React, { useCallback, useRef } from 'react'

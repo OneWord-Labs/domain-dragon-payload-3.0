@@ -2,6 +2,7 @@ import { TipTapEditor } from '@/payload/fields/TiptapEditor'
 import { CollectionConfig } from 'payload/types'
 import { loggedIn } from '../../access/loggedIn'
 import adminOrOwner from './access/adminOrOwner'
+import slugify from 'slugify'
 
 const Blogs: CollectionConfig = {
   slug: 'blogs',
@@ -91,15 +92,18 @@ const Blogs: CollectionConfig = {
       hooks: {
         beforeChange: [
           ({ value, operation }) => {
-            if (value.split(':').length > 1) {
-              value = value.split(':')[1]
+            if (operation === 'create') {
+              if (value.split(':').length > 1) {
+                value = value.split(':')[1]
+              }
+
+              const slug = `${slugify(value, {
+                lower: true,
+                remove: /[*+~\/\\.()'"!?#\.,:@]/g,
+              })}-${Math.floor(Math.random() * 1000000)}`
+              return slug
             }
-            const slug = `${value
-              .trim()
-              .toLowerCase()
-              .replace(/\s+/g, '-')
-              .replace('.', '')}-${Math.floor(Math.random() * 1000000)}`
-            return slug
+            return value
           },
         ],
       },

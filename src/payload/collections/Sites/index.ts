@@ -1,11 +1,18 @@
 import { CollectionConfig, PayloadRequest } from 'payload/types'
 import { loggedIn } from '../../access/loggedIn'
 import adminOrOwner from './access/adminOrOwner'
+import { createBlog } from '@/payload/utilities/generate'
+import { SiteAdmin } from './ui'
 
 const Sites: CollectionConfig = {
   slug: 'sites',
   admin: {
     useAsTitle: 'name',
+    components: {
+      views: {
+        List: SiteAdmin,
+      },
+    },
   },
   fields: [
     {
@@ -111,6 +118,26 @@ const Sites: CollectionConfig = {
           },
         })
         return new Response(JSON.stringify({ blog: blog.docs[0] }), {
+          status: 200,
+        })
+      },
+    },
+
+    {
+      method: 'get',
+      path: '/generate/:id',
+      handler: async (req: PayloadRequest) => {
+        const siteId = req.routeParams?.id
+        if (!siteId) return new Response('Bad Request', { status: 400 })
+
+        const site = await req.payload.findByID({
+          collection: 'sites',
+          id: siteId as string,
+        })
+        if (!site) return new Response('Site not found', { status: 404 })
+
+        await createBlog(site, req.payload)
+        return new Response(JSON.stringify({ message: 'Blog generated' }), {
           status: 200,
         })
       },

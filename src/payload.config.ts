@@ -9,6 +9,8 @@ import Blogs from './payload/collections/Blogs'
 import { Media } from './payload/collections/Media/Media'
 import Sites from './payload/collections/Sites'
 import Users from './payload/collections/Users'
+import Domains from './payload/collections/Domains'
+import { ReactQueryProvider } from './payload/providers/ReactQueryProvider'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -16,8 +18,11 @@ const dirname = path.dirname(filename)
 export default buildConfig({
   admin: {
     user: Users.slug,
+    components: {
+      providers: [ReactQueryProvider],
+    },
   },
-  collections: [Users, Blogs, Sites, Media],
+  collections: [Users, Blogs, Sites, Domains, Media],
   editor: lexicalEditor({}),
   // plugins: [payloadCloud()], // TODO: Re-enable when cloud supports 3.0
   secret: process.env.PAYLOAD_SECRET || '',

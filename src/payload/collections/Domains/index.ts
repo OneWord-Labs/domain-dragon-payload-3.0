@@ -2,7 +2,7 @@ import { CollectionConfig } from 'payload/types'
 import { loggedIn } from '../../access/loggedIn'
 import adminOrOwner from './access/adminOrOwner'
 import { DomainsLayout } from './ui'
-
+const baseUrl = ''
 const Domains: CollectionConfig = {
   slug: 'domains',
   admin: {
@@ -42,7 +42,6 @@ const Domains: CollectionConfig = {
       type: 'checkbox',
       defaultValue: false,
     },
-
     {
       name: 'traffic',
       label: 'Traffic',
@@ -95,6 +94,98 @@ const Domains: CollectionConfig = {
     update: adminOrOwner,
     // admin: admin,
   },
+  endpoints: [
+    {
+      path: '/get-a-record',
+      method: 'get',
+      handler: async (req) => {
+        const { domain } = req.query
+
+        const [configResponse, domainResponse] = await Promise.all([
+          fetch(
+            `https://api.vercel.com/v6/domains/${domain}/config?teamId=${process.env.TEAM_ID_VERCEL}`,
+            {
+              method: 'GET',
+              headers: {
+                Authorization: `Bearer ${process.env.AUTH_BEARER_TOKEN}`,
+                'Content-Type': 'application/json',
+              },
+            },
+          ),
+          fetch(
+            `https://api.vercel.com/v9/projects/${process.env.PROJECT_ID_VERCEL}/domains/${domain}?teamId=${process.env.TEAM_ID_VERCEL}`,
+            {
+              method: 'GET',
+              headers: {
+                Authorization: `Bearer ${process.env.AUTH_BEARER_TOKEN}`,
+                'Content-Type': 'application/json',
+              },
+            },
+          ),
+        ])
+        const configJson = await configResponse.json()
+        const domainJson = await domainResponse.json()
+        console.log({
+          configJson,
+          domainJson,
+        })
+
+        return new Response(JSON.stringify({ configJson, domainJson }))
+      },
+    },
+    {
+      path: '/set-a-record',
+      method: 'get',
+      handler: async (req) => {
+        const { domain } = req.query
+
+        const response = await fetch(
+          `https://api.vercel.com/v9/projects/${process.env.PROJECT_ID_VERCEL}/domains?teamId=${process.env.TEAM_ID_VERCEL}`,
+          {
+            body: `{\n  "name": "${domain}"\n}`,
+            headers: {
+              Authorization: `Bearer ${process.env.AUTH_BEARER_TOKEN}`,
+              'Content-Type': 'application/json',
+            },
+            method: 'POST',
+          },
+        )
+
+        const data = await response.json()
+
+        // console.log({ data: data.verification })
+        // domain -> test2.com
+
+        // txt , CNAME - ?
+        // req -> vercel -> domain -> CNAME: abcd, txt: xyz
+
+        //  data : {
+        //   name: 'test.com',
+        //   apexName: 'test.com',
+        //   projectId: 'prj_rneNezA76JWMXPKdQVEGIlke780i',
+        //   redirect: null,
+        //   redirectStatusCode: null,
+        //   gitBranch: null,
+        //   customEnvironmentId: null,
+        //   updatedAt: 1715528943102,
+        //   createdAt: 1715528943102,
+        //   verified: false,
+        //   verification: [[Object]],
+        // }
+
+        //[
+        //   {
+        //     type: 'TXT',
+        //     domain: '_vercel.test2.com',
+        //     value: 'vc-domain-verify=test2.com,3a16f5dc6fd5b66726e0',
+        //     reason: 'pending_domain_verification',
+        //   }
+        // ]
+
+        return new Response('CNAME, TXT')
+      },
+    },
+  ],
 }
 
 export default Domains

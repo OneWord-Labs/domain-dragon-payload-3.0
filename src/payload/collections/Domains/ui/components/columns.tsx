@@ -7,6 +7,7 @@ import { Domain } from '../data/schema'
 import { DataTableColumnHeader } from './data-table-column-header'
 import { DataTableRowActions } from './data-table-row-actions'
 import ConfiguredSection from '@/payload/components/ConfiguredSection'
+import DomainCard from '@/payload/components/DomainCard'
 
 export const columns: ColumnDef<Domain>[] = [
   {
@@ -23,6 +24,7 @@ export const columns: ColumnDef<Domain>[] = [
     header: ({ column }) => <DataTableColumnHeader column={column} title="DNS Status" />,
     cell: ({ row }) => {
       const status: string = row.getValue('status')
+      const name: string = row.getValue('name')
       const record: { CNAME: string; A: string } = row.getValue('record')
 
       return (
@@ -30,13 +32,7 @@ export const columns: ColumnDef<Domain>[] = [
           <Badge className="text-red-500" variant="default">
             {status === 'notActive' ? 'Not Active' : 'Active'}
           </Badge>
-          <ConfiguredSection domainInfo={{}} />
-          {record?.CNAME || record?.A ? (
-            <div className="text-sm text-gray-500 dark:text-gray-400">
-              A Record: 1.2.3.4
-              <div>C Name: example.com</div>
-            </div>
-          ) : null}
+          <DomainCard domain={name ?? ''} />
 
           <div className="text-sm text-gray-500 dark:text-gray-400" />
         </div>

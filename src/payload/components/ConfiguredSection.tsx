@@ -1,3 +1,4 @@
+'use client'
 import { useState } from 'react'
 import ConfiguredSectionPlaceholder from './ConfiguredSectionPlaceholder'
 
@@ -58,7 +59,7 @@ const ConfiguredSection = ({ domainInfo }: { domainInfo?: any }) => {
               Please set the following TXT record on {domainInfo?.apexName} to prove ownership of{' '}
               {domainInfo?.name}:
             </p>
-            <div className="flex justify-start items-start space-x-10 bg-gray-50 p-2 rounded-md">
+            <div className="flex justify-start items-start space-x-10 p-2 rounded-md">
               <div>
                 <p className="text-sm font-bold">Type</p>
                 <p className="text-sm font-mono mt-2">{txtVerification?.type}</p>

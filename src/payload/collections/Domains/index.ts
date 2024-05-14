@@ -2,6 +2,13 @@ import { CollectionConfig } from 'payload/types'
 import { loggedIn } from '../../access/loggedIn'
 import adminOrOwner from './access/adminOrOwner'
 import { DomainsLayout } from './ui'
+import { checkDomain } from './endpoints/checkDomain'
+import { addDomain } from './endpoints/addDomain'
+import { getDomain } from './endpoints/getDomain'
+import { removeDomain } from './endpoints/removeDomain'
+import { verifyDomain } from './endpoints/verifyDomain'
+import { importDomains } from './endpoints/importDomains'
+import { DataUploader } from '@/payload/components/ImportComponent'
 const baseUrl = ''
 const Domains: CollectionConfig = {
   slug: 'domains',
@@ -12,6 +19,17 @@ const Domains: CollectionConfig = {
         List: DomainsLayout,
       },
     },
+  },
+  hooks: {
+    // beforeChange: [
+    //   async ({ data, req }) => {
+    //     req.payload.create({
+    //       collection: 'sites',
+    //       data: {},
+    //     })
+    //     return data
+    //   },
+    // ],
   },
   fields: [
     {
@@ -69,9 +87,12 @@ const Domains: CollectionConfig = {
           type: 'text',
         },
         {
+          name: 'TXT',
+          type: 'text',
+        },
+        {
           name: 'A',
           type: 'text',
-          required: true,
         },
       ],
     },
@@ -95,6 +116,41 @@ const Domains: CollectionConfig = {
     // admin: admin,
   },
   endpoints: [
+    {
+      path: '/import',
+      method: 'post',
+      handler: importDomains,
+    },
+    {
+      path: '/check-domain',
+      method: 'get',
+      handler: checkDomain,
+    },
+    {
+      path: '/add-domain',
+      method: 'get',
+      handler: addDomain,
+    },
+    {
+      path: '/get-domain',
+      method: 'get',
+      handler: getDomain,
+    },
+    {
+      path: '/get-domain',
+      method: 'get',
+      handler: getDomain,
+    },
+    {
+      path: '/remove-domain',
+      method: 'get',
+      handler: removeDomain,
+    },
+    {
+      path: '/verify-domain',
+      method: 'get',
+      handler: verifyDomain,
+    },
     {
       path: '/get-a-record',
       method: 'get',

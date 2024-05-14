@@ -61,7 +61,6 @@ const Sites: CollectionConfig = {
     {
       name: 'logo',
       label: 'Logo',
-      required: true,
       type: 'upload',
       relationTo: 'media',
     },

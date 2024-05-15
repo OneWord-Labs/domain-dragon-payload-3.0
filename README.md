@@ -28,7 +28,7 @@ Alternatively, you can use [Docker](https://www.docker.com) to spin up this proj
 
 That's it! The Docker instance will help you get up and running quickly while also standardizing the development environment across your teams.
 
-## Production
+## Production 
 
 To run Payload in production, you need to build and serve the Admin panel. To do so, follow these steps:
 

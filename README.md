@@ -6,7 +6,7 @@ See the official [Examples Directory](https://github.com/payloadcms/payload/tree
 
 ## Development
 
-To spin up the project locally, follow these steps:
+To spin up the project locally, follow these steps: 
 
 1. First clone the repo
 1. Then `cd YOUR_PROJECT_REPO && cp .env.example .env`

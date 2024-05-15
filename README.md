@@ -20,7 +20,7 @@ That's it! Changes made in `./src` will be reflected in your app.
 
 
 
-Alternatively, you can use [Docker](https://www.docker.com) to spin up this project locally. To do so, follow these steps:
+Alternatively, you can use [Docker](https://www.docker.com) to spin up this project locally. To do so, follow these steps: 
 
 1. Follow [steps 1 and 2 from above](#development), the docker-compose file will automatically use the `.env` file in your project root
 1. Next run `docker-compose up`

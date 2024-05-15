@@ -54,7 +54,7 @@ export const DataUploader: React.FC<{
 
         // Iterate through each row in the sheet
         sheet.eachRow((row, rowIndex) => {
-          const rowData = {}
+          const rowData: any = {}
 
           // If it's the first row, consider it as headers
           if (rowIndex === 1) {

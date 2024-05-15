@@ -13,13 +13,26 @@ export const importDomains: PayloadHandler = async (req: PayloadRequest) => {
 
   try {
     const sanitizedData = sanitizeData(dataJSON)
+
     for (const row of sanitizedData) {
-      await req.payload.create({
+      const domain = await req.payload.find({
         collection: 'domains',
-        data: {
-          name: row.name,
+        where: {
+          name: {
+            equals: (row.domain ?? '')?.trim(),
+          },
         },
       })
+
+      if (domain?.docs?.length === 0) {
+        const newDomain = await req.payload.create({
+          collection: 'domains',
+          data: {
+            name: row.domain,
+            user: typeof req.user === 'object' ? req?.user?.id : req.user,
+          },
+        })
+      }
     }
   } catch (err: unknown) {
     console.log(err)

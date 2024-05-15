@@ -3,6 +3,7 @@ import { CollectionConfig } from 'payload/types'
 import { loggedIn } from '../../access/loggedIn'
 import adminOrOwner from './access/adminOrOwner'
 import slugify from 'slugify'
+import { populateUser } from '@/payload/hooks/populateUser'
 
 const Blogs: CollectionConfig = {
   slug: 'blogs',
@@ -15,6 +16,9 @@ const Blogs: CollectionConfig = {
     delete: adminOrOwner,
     read: () => true,
     // admin: admin,
+  },
+  hooks: {
+    beforeChange: [populateUser],
   },
   fields: [
     {

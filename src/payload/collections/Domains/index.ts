@@ -1,14 +1,15 @@
 import { CollectionConfig } from 'payload/types'
 import { loggedIn } from '../../access/loggedIn'
 import adminOrOwner from './access/adminOrOwner'
-import { DomainsLayout } from './ui'
-import { checkDomain } from './endpoints/checkDomain'
 import { addDomain } from './endpoints/addDomain'
+import { checkDomain } from './endpoints/checkDomain'
 import { getDomain } from './endpoints/getDomain'
+import { importDomains } from './endpoints/importDomains'
 import { removeDomain } from './endpoints/removeDomain'
 import { verifyDomain } from './endpoints/verifyDomain'
-import { importDomains } from './endpoints/importDomains'
-import { DataUploader } from '@/payload/components/ImportComponent'
+import { DomainsLayout } from './ui'
+import { populateUser } from '@/payload/hooks/populateUser'
+import { addSiteToDomain } from './hooks/addSite'
 const baseUrl = ''
 const Domains: CollectionConfig = {
   slug: 'domains',
@@ -21,6 +22,7 @@ const Domains: CollectionConfig = {
     },
   },
   hooks: {
+    beforeChange: [addSiteToDomain],
     // beforeChange: [
     //   async ({ data, req }) => {
     //     req.payload.create({
@@ -78,24 +80,6 @@ const Domains: CollectionConfig = {
       type: 'number',
       defaultValue: 0,
     },
-    {
-      name: 'record',
-      type: 'group',
-      fields: [
-        {
-          name: 'CNAME',
-          type: 'text',
-        },
-        {
-          name: 'TXT',
-          type: 'text',
-        },
-        {
-          name: 'A',
-          type: 'text',
-        },
-      ],
-    },
 
     {
       name: 'user',
@@ -106,6 +90,15 @@ const Domains: CollectionConfig = {
       admin: {
         position: 'sidebar',
       },
+    },
+
+    {
+      name: 'site',
+      label: 'Site',
+      required: true,
+      type: 'relationship',
+      relationTo: 'sites',
+      admin: { position: 'sidebar' },
     },
   ],
   access: {

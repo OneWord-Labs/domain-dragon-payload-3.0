@@ -3,6 +3,7 @@ import { loggedIn } from '../../access/loggedIn'
 import adminOrOwner from './access/adminOrOwner'
 import { createBlog } from '@/payload/utilities/generate'
 import { SiteAdmin } from './ui'
+import { populateUser } from '@/payload/hooks/populateUser'
 
 const Sites: CollectionConfig = {
   slug: 'sites',
@@ -13,6 +14,10 @@ const Sites: CollectionConfig = {
         List: SiteAdmin,
       },
     },
+  },
+
+  hooks: {
+    beforeChange: [populateUser],
   },
   fields: [
     {
@@ -38,7 +43,6 @@ const Sites: CollectionConfig = {
     {
       name: 'seoKeywords',
       label: 'SEO Keywords',
-      required: true,
       type: 'array',
       fields: [
         {

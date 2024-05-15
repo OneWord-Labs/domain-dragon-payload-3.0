@@ -4,7 +4,6 @@ import { PayloadRequest } from 'payload/types'
 export const checkDomain: PayloadHandler = async (req: PayloadRequest) => {
   const { domain } = req.query
 
-  console.log('Doomain', domain, process.env.TEAM_ID_VERCEL, process.env.AUTH_BEARER_TOKEN)
   const [configResponse, domainResponse] = await Promise.all([
     fetch(
       `https://api.vercel.com/v6/domains/${domain}/config?teamId=${process.env.TEAM_ID_VERCEL}`,

@@ -18,7 +18,6 @@ const DomainCard = ({ domain }: { domain: string }) => {
     })()
   }, [])
 
-  console.log('Data', domainInfo)
   // const [removing, setRemoving] = useState(false)
   return (
     <Card>

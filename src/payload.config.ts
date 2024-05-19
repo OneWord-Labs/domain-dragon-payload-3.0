@@ -11,6 +11,7 @@ import Sites from './payload/collections/Sites'
 import Users from './payload/collections/Users'
 import Domains from './payload/collections/Domains'
 import { ReactQueryProvider } from './payload/providers/ReactQueryProvider'
+import { RegisterButton } from './payload/components/RegisterButton'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -20,8 +21,10 @@ export default buildConfig({
     user: Users.slug,
     components: {
       providers: [ReactQueryProvider],
+      afterLogin: [RegisterButton],
     },
   },
+
   collections: [Users, Blogs, Sites, Domains, Media],
   editor: lexicalEditor({}),
   // plugins: [payloadCloud()], // TODO: Re-enable when cloud supports 3.0

@@ -3,13 +3,12 @@ import { loggedIn } from '../../access/loggedIn'
 import adminOrOwner from './access/adminOrOwner'
 import { addDomain } from './endpoints/addDomain'
 import { checkDomain } from './endpoints/checkDomain'
+import { exportDomainTemplate } from './endpoints/exportDomainTemplate'
 import { getDomain } from './endpoints/getDomain'
 import { importDomains } from './endpoints/importDomains'
 import { removeDomain } from './endpoints/removeDomain'
 import { verifyDomain } from './endpoints/verifyDomain'
 import { DomainsLayout } from './ui'
-import { populateUser } from '@/payload/hooks/populateUser'
-import { addSiteToDomain } from './hooks/addSite'
 const baseUrl = ''
 const Domains: CollectionConfig = {
   slug: 'domains',
@@ -21,8 +20,8 @@ const Domains: CollectionConfig = {
       },
     },
   },
+
   hooks: {
-    beforeChange: [addSiteToDomain],
     // beforeChange: [
     //   async ({ data, req }) => {
     //     req.payload.create({
@@ -91,15 +90,6 @@ const Domains: CollectionConfig = {
         position: 'sidebar',
       },
     },
-
-    {
-      name: 'site',
-      label: 'Site',
-      required: true,
-      type: 'relationship',
-      relationTo: 'sites',
-      admin: { position: 'sidebar' },
-    },
   ],
   access: {
     read: () => true,
@@ -113,6 +103,11 @@ const Domains: CollectionConfig = {
       path: '/import',
       method: 'post',
       handler: importDomains,
+    },
+    {
+      path: '/export',
+      method: 'get',
+      handler: exportDomainTemplate,
     },
     {
       path: '/check-domain',

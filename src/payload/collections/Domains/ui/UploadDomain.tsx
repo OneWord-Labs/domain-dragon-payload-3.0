@@ -17,6 +17,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
+import Router from 'next/router'
 import { Button } from '@/components/ui/button'
 import { LoadingOverlay } from '@/components/LoadingOverlay'
 type State = { type: 'IDLE' } | { type: 'ERROR'; error: string } | { type: 'UPLOADING' }
@@ -94,9 +95,10 @@ export const UploadDomain = () => {
         })
         const data = await response.json()
 
-        if (data.success === 'true') {
+        if (response.status === 200 || data === 'Successfully imported domains') {
           toast.success('Successfully Processed CSV')
           setState({ type: 'IDLE' })
+          Router.reload()
         } else {
           toast.error('Error Processing CSV')
 

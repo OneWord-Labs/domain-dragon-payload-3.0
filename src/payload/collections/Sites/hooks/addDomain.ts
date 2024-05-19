@@ -1,9 +1,10 @@
 import { CollectionBeforeChangeHook } from 'payload/types'
 import slugify from 'slugify'
-import { addDomainFunc } from '../endpoints/addDomain'
+// import { addDomainFunc } from '../endpoints/addDomain'
 import { populateUser } from '@/payload/hooks/populateUser'
+import { addDomainFunc } from '../../Domains/endpoints/addDomain'
 
-export const addSiteToDomain: CollectionBeforeChangeHook = async ({
+export const addDomainToSite: CollectionBeforeChangeHook = async ({
   data,
   operation,
   req,
@@ -16,22 +17,22 @@ export const addSiteToDomain: CollectionBeforeChangeHook = async ({
       remove: /[*+~\/\\.()'"!?#\.,:@]/g,
     })}`
 
-    await addDomainFunc(data.name)
-
     const docsWithUser = await populateUser({ data, operation, req, collection, context })
 
-    const site = await req.payload.create({
-      collection: 'sites',
+    const domain = await req.payload.create({
+      collection: 'domains',
       data: {
         name: data.name,
-        subdomain: slug,
         user: docsWithUser.user,
       },
     })
+    await addDomainFunc(data.name)
 
     return {
       ...data,
-      site: site?.id,
+      domain: domain?.id,
+      subdomain: slug,
+      customdomain: data?.customdomain ?? data.name,
       user: docsWithUser.user,
     }
   }

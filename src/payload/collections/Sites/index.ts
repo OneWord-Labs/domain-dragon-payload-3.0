@@ -1,9 +1,10 @@
+import { createBlog } from '@/payload/utilities/generate'
 import { CollectionConfig, PayloadRequest } from 'payload/types'
 import { loggedIn } from '../../access/loggedIn'
 import adminOrOwner from './access/adminOrOwner'
-import { createBlog } from '@/payload/utilities/generate'
 import { SiteAdmin } from './ui'
-import { populateUser } from '@/payload/hooks/populateUser'
+import { addDomainToSite } from './hooks/addDomain'
+import { GenerateBlog } from './ui/GenerateBlog'
 
 const Sites: CollectionConfig = {
   slug: 'sites',
@@ -17,9 +18,19 @@ const Sites: CollectionConfig = {
   },
 
   hooks: {
-    beforeChange: [populateUser],
+    beforeChange: [addDomainToSite],
   },
   fields: [
+    {
+      name: 'generateBlog',
+      type: 'ui',
+      admin: {
+        components: {
+          Field: GenerateBlog,
+        },
+        position: 'sidebar',
+      },
+    },
     {
       name: 'name',
       label: 'Name',
@@ -40,6 +51,8 @@ const Sites: CollectionConfig = {
       required: false,
       unique: true,
     },
+    { name: 'description', label: 'Description', type: 'text' },
+    { name: 'longDescription', label: 'Description', type: 'textarea' },
     {
       name: 'seoKeywords',
       label: 'SEO Keywords',
@@ -67,6 +80,14 @@ const Sites: CollectionConfig = {
       label: 'Logo',
       type: 'upload',
       relationTo: 'media',
+    },
+    {
+      name: 'domain',
+      label: 'Domain',
+      required: true,
+      type: 'relationship',
+      relationTo: 'domains',
+      admin: { position: 'sidebar' },
     },
   ],
   access: {

@@ -15,29 +15,41 @@ export const importDomains: PayloadHandler = async (req: PayloadRequest) => {
     const sanitizedData = sanitizeData(dataJSON)
 
     for (const row of sanitizedData) {
-      const domain = await req.payload.find({
-        collection: 'domains',
+      const sites = await req.payload.find({
+        collection: 'sites',
         where: {
-          name: {
+          customdomain: {
             equals: (row.domain ?? '')?.trim(),
           },
         },
       })
 
-      if (domain?.docs?.length === 0) {
-        const newDomain = await req.payload.create({
-          collection: 'domains',
+      console.log('SITE', sites)
+      if (sites?.docs?.length === 0) {
+        const newSite = await req.payload.create({
+          collection: 'sites',
           data: {
             name: row.domain,
+            customdomain: row.domain,
+            description: row.short_description,
+            longDescription: row.long_description,
+
+            seoKeywords: [
+              { keyword: row.keyword_1 ?? '' },
+              { keyword: row.keyword_2 ?? '' },
+              { keyword: row.keyword_3 ?? '' },
+            ],
             user: typeof req.user === 'object' ? req?.user?.id : req.user,
           },
         })
+        console.log('newSite', newSite)
       }
     }
   } catch (err: unknown) {
     console.log(err)
+    return new Response('Error uploading domain', { status: 500 })
   }
 
-  return new Response()
+  return new Response('Successfully imported domains', { status: 200 })
   //   return new Response(JSON.stringify(response), { status: 200 })
 }

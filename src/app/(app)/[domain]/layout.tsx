@@ -1,11 +1,10 @@
 import { getSiteFromDomain } from '@/frontend/actions'
 import CTA from '@/frontend/components/CTA'
-import { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import { notFound, redirect } from 'next/navigation'
-import Script from 'next/script'
+import { notFound } from 'next/navigation'
 import { ReactNode } from 'react'
+import { ToastContainer } from 'react-toastify'
 
 // export async function generateMetadata({
 //   params,
@@ -129,6 +128,7 @@ export default async function SiteLayout({
           `,
         }}
       /> */}
+      <ToastContainer position="bottom-center" icon={false} />
     </>
   )
 }

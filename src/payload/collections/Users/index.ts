@@ -1,6 +1,7 @@
 import { CollectionConfig } from 'payload/types'
 import { adminsOrSelf, adminsOrSelfFieldLevel } from './access/adminsOrSelf'
 import admin from '../../access/admin'
+import { registerUser } from './endpoints/registerUser'
 
 const Users: CollectionConfig = {
   slug: 'users',
@@ -23,6 +24,13 @@ const Users: CollectionConfig = {
   admin: {
     useAsTitle: 'email',
   },
+  endpoints: [
+    {
+      path: '/register',
+      method: 'post',
+      handler: registerUser,
+    },
+  ],
   fields: [
     {
       name: 'firstName',

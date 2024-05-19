@@ -112,31 +112,33 @@ export const generateFinalBlog = async (keywords: string) => {
   const outline = await generateOutline(idea)
   const blog = await generateBlogContent(outline)
   const thumbnailDescription = await generateThumbnailDescription(idea)
-  // const thumbnail = await generateThumbnail(thumbnailDescription)
+  const thumbnail = await generateThumbnail(thumbnailDescription)
   idea = idea.replace(/["']/g, '')
 
-  return { idea, outline, blog, thumbnailDescription }
+  return { idea, outline, blog, thumbnailDescription, thumbnail }
 }
 
 export const createBlog = async (site: any, payload: Payload) => {
   try {
     const keywords = site.seoKeywords.map((keyword: any) => keyword.keyword).join(', ')
-    const { idea, outline, blog, thumbnailDescription } = await generateFinalBlog(keywords)
+    const { idea, outline, blog, thumbnailDescription, thumbnail } = await generateFinalBlog(
+      keywords,
+    )
     const content = generateContent(blog)
 
-    // const media = await payload.create({
-    //   collection: 'media',
-    //   data: {
-    //     alt: thumbnail.fileName,
-    //     caption: thumbnailDescription,
-    //   },
-    //   file: {
-    //     data: thumbnail.buffer,
-    //     mimetype: 'image/png',
-    //     name: thumbnail.fileName,
-    //     size: thumbnail.buffer.length,
-    //   },
-    // })
+    const media = await payload.create({
+      collection: 'media',
+      data: {
+        alt: thumbnail.fileName,
+        caption: thumbnailDescription,
+      },
+      file: {
+        data: thumbnail.buffer,
+        mimetype: 'image/png',
+        name: thumbnail.fileName,
+        size: thumbnail.buffer.length,
+      },
+    })
 
     await payload.create({
       collection: 'blogs',
@@ -145,9 +147,9 @@ export const createBlog = async (site: any, payload: Payload) => {
         content: content,
         user: site.user.id,
         site: site.id,
-        thumbnail: '663d45017439392ead89fca2',
+        thumbnail: media.id,
         metaTitle: idea,
-        metaImage: '663d45017439392ead89fca2',
+        metaImage: media.id,
         metaKeywords: keywords,
         slug: idea,
       },

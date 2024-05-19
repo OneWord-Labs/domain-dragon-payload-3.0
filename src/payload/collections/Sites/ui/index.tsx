@@ -1,6 +1,8 @@
 import { Button } from '@/components/ui/button'
-import { SiteList } from './SiteList'
 import Link from 'next/link'
+import { DownloadButton } from '../../Domains/ui/DownloadButton'
+import { UploadDomain } from '../../Domains/ui/UploadDomain'
+import { SiteList } from './SiteList'
 export const SiteAdmin = () => {
   return (
     <div className="flex-grow p-8">
@@ -9,6 +11,9 @@ export const SiteAdmin = () => {
         <Link href="/admin/collections/sites/create">
           <Button>Create New Site</Button>
         </Link>
+        <UploadDomain />
+
+        <DownloadButton />
       </header>
       <SiteList />
     </div>

@@ -14,6 +14,8 @@ import Link from 'next/link'
 import { UploadDomain } from './UploadDomain'
 import { columns } from './components/columns'
 import { DataTable } from './components/data-table'
+import axios from 'axios'
+import { DownloadButton } from './DownloadButton'
 export const DomainsLayout = () => {
   return (
     <div className="p-8">
@@ -111,14 +113,12 @@ export const DomainsLayout = () => {
       </div>
       <div className="flex items-center gap-4 pt-16">
         <h1 className="font-semibold text-lg md:text-2xl">Domains</h1>
-        <Link href="/admin/collections/domains/create">
+        <Link href="/admin/collections/sites/create">
           <Button size="sm">Add Domain</Button>
         </Link>
         <UploadDomain />
 
-        <Button size="sm" variant="outline" disabled>
-          Download Template
-        </Button>
+        <DownloadButton />
       </div>
       <div className="border shadow-sm rounded-lg pt-16">
         <DataTable data={[]} columns={columns} />

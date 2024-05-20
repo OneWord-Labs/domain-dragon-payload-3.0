@@ -37,6 +37,7 @@ To run Payload in production, you need to build and serve the Admin panel. To do
 
 ### Deployment
 
+
 The easiest way to deploy your project is to use [Payload Cloud](https://payloadcms.com/new/import), a one-click hosting solution to deploy production-ready instances of your Payload apps directly from your GitHub repo. You can also deploy your app manually, check out the [deployment documentation](https://payloadcms.com/docs/production/deployment) for full details.
 
 ## Questions

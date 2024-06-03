@@ -88,6 +88,10 @@ const Domains: CollectionConfig = {
       relationTo: 'users',
       admin: {
         position: 'sidebar',
+        condition: (data) => {
+          return !!data?.id
+        },
+        readOnly: true,
       },
     },
   ],

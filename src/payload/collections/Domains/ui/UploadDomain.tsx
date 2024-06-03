@@ -136,35 +136,37 @@ export const UploadDomain = () => {
       <AlertDialog>
         <AlertDialogTrigger>Upload CSV</AlertDialogTrigger>
         <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Create Content Curation List</AlertDialogTitle>
-            <AlertDialogDescription>
-              <input
-                name="file"
-                type="file"
-                accept=".csv,.txt,.xlsx"
-                style={{ marginBottom: '8px' }}
-                onChange={(e) => {
-                  setFile(e.currentTarget?.files?.[0])
-                  // e.currentTarget?.files?.[0]
-                  setState({ type: 'IDLE' })
+          <div>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Create Content Curation List</AlertDialogTitle>
+              <AlertDialogDescription>
+                <input
+                  name="file"
+                  type="file"
+                  accept=".csv,.txt,.xlsx"
+                  style={{ marginBottom: '8px' }}
+                  onChange={(e) => {
+                    setFile(e.currentTarget?.files?.[0])
+                    // e.currentTarget?.files?.[0]
+                    setState({ type: 'IDLE' })
+                  }}
+                />
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel className="m-0">Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                className="m-0"
+                onClick={() => {
+                  onSubmit(file)
                 }}
-              />
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel className="m-0">Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              className="m-0"
-              onClick={() => {
-                onSubmit(file)
-              }}
-            >
-              <span>Upload</span>
-              <UploadCloudIcon style={{ marginLeft: '8px' }} />
-              {/* Continue */}
-            </AlertDialogAction>
-          </AlertDialogFooter>
+              >
+                <span>Upload</span>
+                <UploadCloudIcon style={{ marginLeft: '8px' }} />
+                {/* Continue */}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </div>
         </AlertDialogContent>
       </AlertDialog>
       {isLoading && <LoadingOverlay loadingText={'Uploading Domains...'} />}

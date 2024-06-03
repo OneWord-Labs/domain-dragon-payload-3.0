@@ -16,19 +16,24 @@ export const addDomain: PayloadHandler = async (req: PayloadRequest) => {
 }
 
 export const addDomainFunc = async (domain: string) => {
-  const response = await fetch(
-    `https://api.vercel.com/v9/projects/${process.env.PROJECT_ID_VERCEL}/domains?teamId=${process.env.TEAM_ID_VERCEL}`,
-    {
-      body: `{\n  "name": "${domain}"\n}`,
-      headers: {
-        Authorization: `Bearer ${process.env.AUTH_BEARER_TOKEN}`,
-        'Content-Type': 'application/json',
+  try {
+    const response = await fetch(
+      `https://api.vercel.com/v9/projects/${process.env.PROJECT_ID_VERCEL}/domains?teamId=${process.env.TEAM_ID_VERCEL}`,
+      {
+        body: `{\n  "name": "${domain}"\n}`,
+        headers: {
+          Authorization: `Bearer ${process.env.AUTH_BEARER_TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
       },
-      method: 'POST',
-    },
-  )
+    )
 
-  const data = await response.json()
+    const data = await response.json()
 
-  return data
+    console.log('Data', data, domain)
+    return data
+  } catch (err) {
+    console.log('Error managing domain to vercel', err)
+  }
 }

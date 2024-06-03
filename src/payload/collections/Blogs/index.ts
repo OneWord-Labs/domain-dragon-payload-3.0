@@ -48,6 +48,10 @@ const Blogs: CollectionConfig = {
       relationTo: 'users',
       admin: {
         position: 'sidebar',
+        condition: (data) => {
+          return !!data?.id
+        },
+        readOnly: true,
       },
     },
     {
@@ -58,6 +62,10 @@ const Blogs: CollectionConfig = {
       relationTo: 'sites',
       admin: {
         position: 'sidebar',
+        condition: (data) => {
+          return !!data?.id
+        },
+        readOnly: true,
       },
     },
     {
@@ -92,6 +100,10 @@ const Blogs: CollectionConfig = {
       unique: true,
       admin: {
         position: 'sidebar',
+        condition: (data) => {
+          return !!data?.id
+        },
+        readOnly: true,
       },
       hooks: {
         beforeChange: [

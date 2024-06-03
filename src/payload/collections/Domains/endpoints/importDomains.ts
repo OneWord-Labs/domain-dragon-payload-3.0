@@ -24,7 +24,6 @@ export const importDomains: PayloadHandler = async (req: PayloadRequest) => {
         },
       })
 
-      console.log('SITE', sites)
       if (sites?.docs?.length === 0) {
         const newSite = await req.payload.create({
           collection: 'sites',
@@ -42,7 +41,6 @@ export const importDomains: PayloadHandler = async (req: PayloadRequest) => {
             user: typeof req.user === 'object' ? req?.user?.id : req.user,
           },
         })
-        console.log('newSite', newSite)
       }
     }
   } catch (err: unknown) {

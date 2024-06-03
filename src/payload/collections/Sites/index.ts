@@ -73,6 +73,10 @@ const Sites: CollectionConfig = {
       relationTo: 'users',
       admin: {
         position: 'sidebar',
+        condition: (data) => {
+          return !!data?.id
+        },
+        readOnly: true,
       },
     },
     {
@@ -160,10 +164,16 @@ const Sites: CollectionConfig = {
         })
         if (!site) return new Response('Site not found', { status: 404 })
 
-        await createBlog(site, req.payload)
-        return new Response(JSON.stringify({ message: 'Blog generated' }), {
-          status: 200,
-        })
+        createBlog(site, req.payload)
+        return new Response(
+          JSON.stringify({
+            message:
+              'Blog is being generated. It can take a few minutes. Please check the blogs section for further updates.',
+          }),
+          {
+            status: 200,
+          },
+        )
       },
     },
   ],

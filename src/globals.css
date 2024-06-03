@@ -2,9 +2,51 @@
 @tailwind components;
 @tailwind utilities;
 
+@import './styles/editor.css';
+@import './styles/index.css';
+@import './styles/partials/animations.css';
+@import './styles/partials/blocks.css';
+@import './styles/partials/code.css';
+@import './styles/partials/collab.css';
+@import './styles/partials/lists.css';
+@import './styles/partials/placeholder.css';
+@import './styles/partials/table.css';
+@import './styles/partials/typography.css';
+
+@font-face {
+  font-family: 'SF Pro Display';
+  font-weight: 400;
+  src: url('/fonts/SF-Pro-Display-Medium.otf');
+}
+
 @layer base {
+  html {
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+      'Helvetica Neue', Arial, sans-serif !important;
+  }
+
+  [type='text']:focus,
+  input:where(:not([type])):focus,
+  [type='email']:focus,
+  [type='url']:focus,
+  [type='password']:focus,
+  [type='number']:focus,
+  [type='date']:focus,
+  [type='datetime-local']:focus,
+  [type='month']:focus,
+  [type='search']:focus,
+  [type='tel']:focus,
+  [type='time']:focus,
+  [type='week']:focus,
+  [multiple]:focus,
+  textarea:focus,
+  select:focus {
+    box-shadow: none;
+  }
   :root {
-    --background: 0 0% 100%;
+    --font-body: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+      'Helvetica Neue', Arial, sans-serif !important;
+    --background: var(--theme-elevation-0);
     --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
@@ -23,11 +65,13 @@
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
     --ring: 240 5.9% 10%;
-    --radius: 0.3rem;
+    --radius: 0rem;
   }
 
   .dark {
-    --background: 240 10% 3.9%;
+    --font-body: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+      'Helvetica Neue', Arial, sans-serif !important;
+    --background: var(--theme-elevation-0);
     --foreground: 0 0% 98%;
     --card: 240 10% 3.9%;
     --card-foreground: 0 0% 98%;
@@ -49,11 +93,48 @@
   }
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
+:focus-visible {
+  outline: 0 !important;
+  outline-width: 0 !important;
+  outline-offset: 0 !important;
+}
+
+::-webkit-scrollbar {
+  width: 0.7em;
+  height: 0.7em;
+}
+
+::-webkit-scrollbar-button:start:decrement,
+::-webkit-scrollbar-button:end:increment {
+  display: block;
+  height: 0.7em;
+}
+
+::-webkit-scrollbar-button:vertical:increment {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-track-piece {
+  background-color: transparent;
+  -webkit-border-radius: 0.7em;
+}
+
+::-webkit-scrollbar-thumb:vertical {
+  width: 0.7em;
+  background-color: var(--theme-elevation-100);
+  -webkit-border-radius: 0.7em;
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+  width: 0.7em;
+  background-color: transparent;
+  -webkit-border-radius: 0.7em;
+}
+::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+}
+::-webkit-scrollbar-corner {
+  width: 0;
+  height: 0;
 }

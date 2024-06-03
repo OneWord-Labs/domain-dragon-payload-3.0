@@ -89,7 +89,12 @@ export default async function SiteLayout({
           <div className="mx-auto flex h-full max-w-screen-xl items-center justify-center space-x-5 px-10 sm:px-20">
             <Link href="/" className="flex items-center justify-center">
               <div className="inline-block h-8 w-8 overflow-hidden rounded-full align-middle">
-                <Image alt={site.name || ''} height={40} src={site.logo?.url || ''} width={40} />
+                <Image
+                  alt={site.name || ''}
+                  height={40}
+                  src={site.logo?.url || '/logo.png'}
+                  width={40}
+                />
               </div>
               <span className="ml-3 inline-block truncate font-title font-medium">{site.name}</span>
             </Link>

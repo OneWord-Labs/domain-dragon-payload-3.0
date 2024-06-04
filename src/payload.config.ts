@@ -5,13 +5,16 @@ import path from 'path'
 import { buildConfig } from 'payload/config'
 // import sharp from 'sharp'
 import { fileURLToPath } from 'url'
+import { Logo } from './graphics/Logo'
 import Blogs from './payload/collections/Blogs'
+import Domains from './payload/collections/Domains'
 import { Media } from './payload/collections/Media/Media'
 import Sites from './payload/collections/Sites'
 import Users from './payload/collections/Users'
-import Domains from './payload/collections/Domains'
-import { ReactQueryProvider } from './payload/providers/ReactQueryProvider'
+import { CustomNav } from './payload/components/CustomNav'
 import { RegisterButton } from './payload/components/RegisterButton'
+import { ReactQueryProvider } from './payload/providers/ReactQueryProvider'
+import { Icon } from './graphics/Icon'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -22,6 +25,11 @@ export default buildConfig({
     components: {
       providers: [ReactQueryProvider],
       afterLogin: [RegisterButton],
+      Nav: CustomNav,
+      graphics: {
+        Logo: Logo,
+        Icon: Icon,
+      },
     },
   },
 

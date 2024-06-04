@@ -59,7 +59,7 @@ export const EditorComponent: React.FC<Props> = (props) => {
   return (
     <div style={{ width: '100%', height: '100%', overflow: 'visible' }}>
       {/* {DarkModeSwitcher} */}
-      <FieldLabel label={props?.label ?? capitalize(props?.name) ?? ''} />
+      <FieldLabel label={(props?.label as string) ?? capitalize(props?.name) ?? ''} />
       <BlockEditor
         hasCollab={hasCollab}
         content={value}

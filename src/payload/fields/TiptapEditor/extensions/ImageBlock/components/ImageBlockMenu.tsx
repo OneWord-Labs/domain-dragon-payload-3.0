@@ -1,5 +1,5 @@
 import { BubbleMenu as BaseBubbleMenu } from '@tiptap/react'
-import React, { useCallback, useRef } from 'react'
+import React, { ReactNode, useCallback, useRef } from 'react'
 import { Instance, sticky } from 'tippy.js'
 import { v4 as uuid } from 'uuid'
 
@@ -14,7 +14,7 @@ import {
   AlignHorizontalDistributeEnd,
 } from 'lucide-react'
 
-export const ImageBlockMenu = ({ editor, appendTo }: MenuProps): JSX.Element => {
+export const ImageBlockMenu = ({ editor, appendTo }: MenuProps): ReactNode => {
   const menuRef = useRef<HTMLDivElement>(null)
   const tippyInstance = useRef<Instance | null>(null)
 

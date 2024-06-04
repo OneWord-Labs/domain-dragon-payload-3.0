@@ -1,5 +1,5 @@
 import { BubbleMenu as BaseBubbleMenu, Editor } from '@tiptap/react'
-import React, { useCallback, useState } from 'react'
+import React, { ReactNode, useCallback, useState } from 'react'
 
 import { MenuProps } from '../types'
 import { LinkEditorPanel, LinkPreviewPanel } from '../../panels'
@@ -8,7 +8,7 @@ import { Surface } from '../../ui/Surface'
 import { Toolbar } from '../../ui/Toolbar'
 import { Instagram, Twitter, Youtube } from 'lucide-react'
 
-export const LinkMenu = ({ editor, appendTo }: MenuProps): JSX.Element => {
+export const LinkMenu = ({ editor, appendTo }: MenuProps): ReactNode => {
   const [showEdit, setShowEdit] = useState(false)
 
   const shouldShow = useCallback(() => {

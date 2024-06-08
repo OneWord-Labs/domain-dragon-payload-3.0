@@ -1,3 +1,1 @@
-import type { Page } from '../../../payload-types'
-
-export type ArchiveBlockProps = Extract<Page['layout'][0], { blockType: 'archive' }>
+export type ArchiveBlockProps = Extract<any['layout'][0], { blockType: 'archive' }>

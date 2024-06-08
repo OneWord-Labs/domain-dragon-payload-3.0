@@ -1,6 +1,7 @@
 import { NodeViewContent, NodeViewWrapper } from '@tiptap/react'
 import './socialMedia.scss'
 
+// eslint-disable-next-line import/no-anonymous-default-export, react/display-name
 export default ({ props, children, Icon, text }: any) => {
   return (
     <NodeViewWrapper

@@ -24,7 +24,6 @@ export const generateTemplate: ({ fields }: { fields: IFieldKey[] }) => PayloadH
     })
     ws.addRow(headers)
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     ws.columns.map((col, _index) => (col.width = 18))
 
     let index = 0

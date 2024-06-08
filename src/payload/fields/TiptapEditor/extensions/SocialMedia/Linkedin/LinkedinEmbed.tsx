@@ -5,6 +5,7 @@ import { Linkedin } from 'lucide-react'
 import '../socialMedia.scss'
 import SocialMediaEmbed from '../SocialMediaEmbed'
 
+// eslint-disable-next-line import/no-anonymous-default-export, react/display-name
 export default (props: { node: { attrs: { url?: string } } }) => {
   return (
     <SocialMediaEmbed props={props} Icon={Linkedin} text={'Embed a post from Linkedin'}>

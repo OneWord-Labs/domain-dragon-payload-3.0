@@ -4,6 +4,7 @@ import { TikTokEmbed } from 'react-social-media-embed'
 import '../socialMedia.scss'
 import SocialMediaEmbed from '../SocialMediaEmbed'
 
+// eslint-disable-next-line import/no-anonymous-default-export, react/display-name
 export default (props: { node: { attrs: { url?: string } } }) => {
   return (
     <SocialMediaEmbed props={props} Icon={Music} text={' Embed a Video from Tiktok'}>

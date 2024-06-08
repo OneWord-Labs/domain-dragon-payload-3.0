@@ -4,6 +4,7 @@ import { CustomMarkdown } from '@/frontend/components/Markdown'
 import MoreStories from '@/frontend/components/MoreStories'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import RichText from '@/components/RichText'
 
 export async function generateMetadata({
   params,
@@ -62,7 +63,8 @@ const Page = async ({ params }: { params: { domain: string; slug: string } }) =>
     <div className="max-w-screen-xl xl:mx-auto mx-4 min-w-screen">
       <BlogHeader blog={blog} />
 
-      <CustomMarkdown markdown={blogMarkdown} />
+      <RichText content={blog.content as any} enableGutter={false} />
+      {/* <CustomMarkdown markdown={blogMarkdown} /> */}
 
       <MoreStories blogs={adjacentBlogs} />
     </div>

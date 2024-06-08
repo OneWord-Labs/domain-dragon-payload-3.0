@@ -4,6 +4,17 @@ import { loggedIn } from '../../access/loggedIn'
 import adminOrOwner from './access/adminOrOwner'
 import slugify from 'slugify'
 import { populateUser } from '@/payload/hooks/populateUser'
+import {
+  BlocksFeature,
+  FixedToolbarFeature,
+  HeadingFeature,
+  HorizontalRuleFeature,
+  InlineToolbarFeature,
+  lexicalEditor,
+} from '@payloadcms/richtext-lexical'
+import { Banner } from '@/payload/blocks/Banner'
+import { Code } from '@/payload/blocks/Code'
+import { MediaBlock } from '@/payload/blocks/MediaBlock'
 
 const Blogs: CollectionConfig = {
   slug: 'blogs',
@@ -37,9 +48,27 @@ const Blogs: CollectionConfig = {
       required: true,
     },
 
-    ...TipTapEditor({
+    // ...TipTapEditor({
+    //   name: 'content',
+    // }),
+    {
       name: 'content',
-    }),
+      type: 'richText',
+      editor: lexicalEditor({
+        features: ({ rootFeatures }) => {
+          return [
+            ...rootFeatures,
+            HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
+            BlocksFeature({ blocks: [Banner, Code, MediaBlock] }),
+            FixedToolbarFeature(),
+            InlineToolbarFeature(),
+            HorizontalRuleFeature(),
+          ]
+        },
+      }),
+      label: false,
+      required: true,
+    },
     {
       name: 'user',
       label: 'User',

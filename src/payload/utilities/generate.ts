@@ -4,11 +4,12 @@ import { Client } from '@octoai/client'
 import crypto from 'crypto'
 import { Payload } from 'payload'
 import { generateContent } from './generateHTML'
+import { runBloggpt } from '@/generative/functions'
 
 const octoai = new Client()
 
 const model = new ChatOpenAI({
-  modelName: 'gpt-3.5-turbo',
+  modelName: 'gpt-3.5-turbo-0125',
 })
 
 const ideaPromptTemplate = PromptTemplate.fromTemplate(`
@@ -28,6 +29,14 @@ const outlinePrompt = PromptTemplate.fromTemplate(`
     You are an outline Chatbot made for generating blog outlines based on the given idea. You only need to return the idea do not need to chat. 
 
     idea: {idea}
+
+    Follow the following steps:
+    1. Research the topic on the web if you are not sure about it.
+    2. Keep searching google until you have sufficient information to write the blog sections.
+    3. If you are unsure of anything, search google for more information.
+    4. The outline should have minimum 3 sections where each section heading should be unique and start with #. The end of the section description should always be "\n\n"
+    5. Find and place relevant SEO keywords for each section in the given format."Search for: (keywords)" 
+
 `)
 
 export const generateOutline = async (idea: string): Promise<string> => {
@@ -110,7 +119,8 @@ export const generateBlogContent = async (outline: string): Promise<string> => {
 export const generateFinalBlog = async (keywords: string) => {
   let idea = await generateIdea(keywords)
   const outline = await generateOutline(idea)
-  const blog = await generateBlogContent(outline)
+  const blog = await runBloggpt(idea, outline)
+  // const blog = await generateBlogContent(outline)
   const thumbnailDescription = await generateThumbnailDescription(idea)
   const thumbnail = await generateThumbnail(thumbnailDescription)
   idea = idea.replace(/["']/g, '')
@@ -154,6 +164,7 @@ export const createBlog = async (site: any, payload: Payload) => {
         slug: idea,
       },
     })
+    console.log('AWESOME BLOG CREATED')
   } catch (err: any) {
     payload.logger.error(err)
     throw err

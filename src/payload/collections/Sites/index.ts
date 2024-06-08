@@ -5,6 +5,7 @@ import adminOrOwner from './access/adminOrOwner'
 import { SiteAdmin } from './ui'
 import { addDomainToSite } from './hooks/addDomain'
 import { GenerateBlog } from './ui/GenerateBlog'
+import { runBloggpt } from '../../../generative/functions'
 
 const Sites: CollectionConfig = {
   slug: 'sites',

@@ -7,8 +7,6 @@ import {
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
 
-import { linkGroup } from '../../fields/linkGroup'
-
 export const CallToAction: Block = {
   slug: 'cta',
   fields: [
@@ -27,12 +25,12 @@ export const CallToAction: Block = {
       }),
       label: false,
     },
-    linkGroup({
-      appearances: ['default', 'outline'],
-      overrides: {
-        maxRows: 2,
-      },
-    }),
+    // linkGroup({
+    //   appearances: ['default', 'outline'],
+    //   overrides: {
+    //     maxRows: 2,
+    //   },
+    // }),
   ],
   labels: {
     plural: 'Calls to Action',

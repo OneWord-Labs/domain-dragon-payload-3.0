@@ -9,7 +9,7 @@ type Props = {
 
 export const Code: React.FC<Props> = ({ code, language }) => {
   return (
-    <Highlight code={code} language={language} theme={themes.vsDark}>
+    <Highlight code={code} language={language || 'javascript'} theme={themes.vsDark}>
       {({ getLineProps, getTokenProps, tokens }: any) => (
         <pre className="bg-black p-4 border text-xs border-border rounded overflow-x-auto">
           {tokens.map((line: any, i: number) => (

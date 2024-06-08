@@ -7,7 +7,7 @@ import {
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
 
-import { link } from '../../fields/link'
+// import { link } from '../../fields/link'
 
 const columnFields: Field[] = [
   {
@@ -52,13 +52,13 @@ const columnFields: Field[] = [
     name: 'enableLink',
     type: 'checkbox',
   },
-  link({
-    overrides: {
-      admin: {
-        condition: (_, { enableLink }) => Boolean(enableLink),
-      },
-    },
-  }),
+  // link({
+  //   overrides: {
+  //     admin: {
+  //       condition: (_, { enableLink }) => Boolean(enableLink),
+  //     },
+  //   },
+  // }),
 ]
 
 export const Content: Block = {

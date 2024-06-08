@@ -19,7 +19,7 @@ import { Icon } from './graphics/Icon'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-export default buildConfig({
+export const payloadConfig = {
   admin: {
     user: Users.slug,
     components: {
@@ -51,4 +51,6 @@ export default buildConfig({
   // This is temporary - we may make an adapter pattern
   // for this before reaching 3.0 stable
   // sharp,
-})
+}
+
+export default buildConfig(payloadConfig)

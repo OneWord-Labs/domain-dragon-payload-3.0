@@ -6,6 +6,7 @@ import { SiteAdmin } from './ui'
 import { addDomainToSite } from './hooks/addDomain'
 import { GenerateBlog } from './ui/GenerateBlog'
 import { runBloggpt } from '../../../generative/functions'
+import { generateContent } from '@/payload/utilities/generateHTML'
 
 const Sites: CollectionConfig = {
   slug: 'sites',

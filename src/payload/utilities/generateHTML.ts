@@ -1,20 +1,54 @@
-import TurndownService from 'turndown'
+import { createHeadlessEditor } from '@lexical/headless' // <= make sure this package is installed
+import { $convertFromMarkdownString, TRANSFORMERS } from '@lexical/markdown'
+import {
+  defaultEditorConfig,
+  defaultEditorFeatures,
+  getEnabledNodes,
+  sanitizeServerEditorConfig,
+} from '@payloadcms/richtext-lexical'
+import {
+  BlocksFeature,
+  FixedToolbarFeature,
+  HeadingFeature,
+  HorizontalRuleFeature,
+  InlineToolbarFeature,
+  lexicalEditor,
+} from '@payloadcms/richtext-lexical'
+import { Banner } from '@/payload/blocks/Banner'
+import { Code } from '@/payload/blocks/Code'
+import { MediaBlock } from '@/payload/blocks/MediaBlock'
+import payloadConfig from '@/payload.config'
+const yourEditorConfig = defaultEditorConfig
 
-import { generateJSON } from '@tiptap/html'
-import StarterKit from '@tiptap/starter-kit'
+// If you made changes to the features of the field's editor config, you should also make those changes here:
+yourEditorConfig.features = [
+  ...defaultEditorFeatures,
+  HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
+  HorizontalRuleFeature(),
+  // Add your custom features here
+] as any[]
+export const generateContent = async (markdown: string): Promise<any> => {
+  const yourSanitizedEditorConfig = await sanitizeServerEditorConfig(
+    yourEditorConfig,
+    await payloadConfig,
+  ) // <= your editor config here
+  const headlessEditor = createHeadlessEditor({
+    nodes: getEnabledNodes({
+      editorConfig: yourSanitizedEditorConfig,
+    }),
+  })
 
-export const generateContent = (html: string): { html: string; json: any; markdown: string } => {
-  const turndownService = new TurndownService()
+  console.log('MAEK', markdown)
+  headlessEditor.update(
+    () => {
+      $convertFromMarkdownString(markdown, yourSanitizedEditorConfig.features.markdownTransformers)
+    },
+    { discrete: true },
+  )
 
-  const markdown = turndownService.turndown(html ?? '')
-  const json = generateJSON(html, [
-    StarterKit,
-    // other extensions …
-  ])
+  // Do this if you then want to get the editor JSON
+  const editorJSON = headlessEditor.getEditorState().toJSON() as any
+  console.log('editorJSON', editorJSON)
 
-  return {
-    json: json,
-    markdown: markdown,
-    html: html,
-  }
+  return editorJSON
 }

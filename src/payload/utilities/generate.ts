@@ -1,10 +1,10 @@
-import { ChatOpenAI } from '@langchain/openai'
+import { runBloggpt } from '@/generative/functions'
 import { PromptTemplate } from '@langchain/core/prompts'
+import { ChatOpenAI } from '@langchain/openai'
 import { Client } from '@octoai/client'
 import crypto from 'crypto'
 import { Payload } from 'payload'
 import { generateContent } from './generateHTML'
-import { runBloggpt } from '@/generative/functions'
 
 const octoai = new Client()
 
@@ -134,7 +134,7 @@ export const createBlog = async (site: any, payload: Payload) => {
     const { idea, outline, blog, thumbnailDescription, thumbnail } = await generateFinalBlog(
       keywords,
     )
-    const content = generateContent(blog)
+    const content = await generateContent(blog)
 
     const media = await payload.create({
       collection: 'media',

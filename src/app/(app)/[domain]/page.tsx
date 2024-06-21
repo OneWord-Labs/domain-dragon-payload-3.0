@@ -24,6 +24,14 @@ const Page = async ({ params }: { params: { domain: string } }) => {
 
   return (
     <>
+      <head>
+        <script
+          defer
+          src="https://unpkg.com/@tinybirdco/flock.js"
+          data-host="https://api.tinybird.co"
+          data-token="p.eyJ1IjogImEzZTgwNDI5LWI3MTUtNDZiZC1hZDViLWFiYTljOTM4Y2E2YSIsICJpZCI6ICJiNTFmNjdhNy0xMjkyLTRjZWQtYTFjYi1hYTQ5ZDZkZDliODkiLCAiaG9zdCI6ICJldV9zaGFyZWQifQ.UdybUQdVWzF6uY55aBr2Y5o8A0RrhfetrQ8njLrFSbo"
+        />
+      </head>
       <div className="mb-20 w-full">
         {blogs.length > 0 ? (
           <div className="mx-auto w-full max-w-screen-xl md:mb-28 lg:w-5/6">

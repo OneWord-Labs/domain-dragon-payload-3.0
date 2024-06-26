@@ -21,6 +21,7 @@ export const Media: CollectionConfig = {
     afterDelete: [afterDeleteHook],
     afterRead: [afterReadHook],
   },
+
   fields: [
     {
       name: 'alt',
@@ -40,6 +41,7 @@ export const Media: CollectionConfig = {
     },
   ],
   upload: {
+    disableLocalStorage: true,
     adminThumbnail: ({ doc }) => {
       return (doc[GROUP_NAME] as UploadApiResponse)?.secure_url
     },

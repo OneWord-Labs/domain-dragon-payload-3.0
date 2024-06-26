@@ -41,52 +41,18 @@ export class CloudinaryService {
     const _opts = {
       ...this.options,
     }
-
-    var encoding = 'base64'
-    var base64Data = buffer.toString('base64')
-    var fileUri = 'data:' + 'application/octet-stream' + ';' + encoding + ',' + base64Data
-
-    try {
-      const uploadToCloudinary = () => {
-        return new Promise((resolve, reject) => {
-          var result = cloudinary.uploader
-            .upload(fileUri, {
-              invalidate: true,
-            })
-            .then((result) => {
-              console.log(result)
-              resolve(result)
-            })
-            .catch((error) => {
-              console.log(error)
-              reject(error)
-            })
-        })
-      }
-
-      const result: any = await uploadToCloudinary()
-
-      return result
-      // let imageUrl = result.secure_url
-
-      // return NextResponse.json({ success: true, imageUrl: imageUrl }, { status: 200 })
-    } catch (error) {
-      console.log('server err', error)
-      throw new Error(JSON.stringify(error))
-      // return NextResponse.json({ err: 'Internal Server Error' }, { status: 500 })
-    }
-    // return new Promise((resolve, reject) => {
-    //   const uploadStream = cloudinary.uploader.upload_stream(
-    //     {
-    //       ..._opts,
-    //     },
-    //     (error: any, result: any) => {
-    //       if (result) resolve(result)
-    //       else reject(error)
-    //     },
-    //   )
-    //   streamifier.createReadStream(buffer).pipe(uploadStream)
-    // })
+    return new Promise((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        {
+          ..._opts,
+        },
+        (error: any, result: any) => {
+          if (result) resolve(result)
+          else reject(error)
+        },
+      )
+      streamifier.createReadStream(buffer).pipe(uploadStream)
+    })
     // return uploadPromise
   }
   async delete(

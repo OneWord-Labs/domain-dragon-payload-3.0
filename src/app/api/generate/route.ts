@@ -1,3 +1,5 @@
+export const maxDuration = 300
+
 import { kv } from '@vercel/kv'
 import { Ratelimit } from '@upstash/ratelimit'
 import { generateOpenAi } from './openAi'

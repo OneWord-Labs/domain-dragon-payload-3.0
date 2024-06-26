@@ -10,7 +10,7 @@ const adminOrOwner: Access = ({ req: { user } }) => {
       },
     }
   }
-  return false
+  return true
 }
 
 export default adminOrOwner

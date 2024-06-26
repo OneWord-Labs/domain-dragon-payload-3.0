@@ -97,7 +97,7 @@ const Sites: CollectionConfig = {
     },
   ],
   access: {
-    read: () => true,
+    read: adminOrOwner,
     create: loggedIn,
     delete: adminOrOwner,
     update: adminOrOwner,
@@ -166,7 +166,7 @@ const Sites: CollectionConfig = {
         })
         if (!site) return new Response('Site not found', { status: 404 })
 
-        createBlog(site, req.payload)
+        await createBlog(site, req.payload)
         return new Response(
           JSON.stringify({
             message:

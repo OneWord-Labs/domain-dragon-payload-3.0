@@ -1,3 +1,5 @@
+export const maxDuration = 300
+
 import { AssistantResponse } from 'ai'
 import OpenAI from 'openai'
 

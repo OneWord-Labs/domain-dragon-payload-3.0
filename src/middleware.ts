@@ -29,11 +29,19 @@ export default async function middleware(req: NextRequest) {
   if (path?.startsWith('/api')) {
     return NextResponse.rewrite(new URL(`${process.env.NEXT_PAYLOAD_API_URL}${path}`))
   }
-  if (path?.startsWith('/admin')) {
-    return NextResponse.rewrite(new URL(`${process.env.NEXT_PAYLOAD_API_URL}${path}`))
+
+  if (path?.startsWith('/admin') && hostname !== `app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) {
+    return NextResponse.redirect(new URL(`${process.env.NEXT_PAYLOAD_API_URL}${path}`))
+  }
+  if (!path?.startsWith('/admin') && hostname === `app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) {
+    return NextResponse.redirect(new URL(`${process.env.NEXT_PAYLOAD_API_URL}/admin`))
   }
 
-  if (hostname === 'localhost:3000' || hostname === process.env.NEXT_PUBLIC_ROOT_DOMAIN) {
+  if (
+    hostname === 'localhost:3000' ||
+    hostname === process.env.NEXT_PAYLOAD_API_URL ||
+    hostname === `app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`
+  ) {
     return NextResponse.rewrite(new URL(req.url))
   }
   console.log(

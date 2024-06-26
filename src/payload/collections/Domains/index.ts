@@ -96,7 +96,7 @@ const Domains: CollectionConfig = {
     },
   ],
   access: {
-    read: () => true,
+    read: adminOrOwner,
     create: loggedIn,
     delete: adminOrOwner,
     update: adminOrOwner,

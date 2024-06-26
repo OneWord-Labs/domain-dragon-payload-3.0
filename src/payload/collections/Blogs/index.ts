@@ -25,7 +25,7 @@ const Blogs: CollectionConfig = {
     create: loggedIn,
     update: adminOrOwner,
     delete: adminOrOwner,
-    read: () => true,
+    read: adminOrOwner,
     // admin: admin,
   },
   hooks: {

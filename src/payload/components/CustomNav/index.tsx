@@ -2,6 +2,7 @@ import React from 'react'
 
 import { NavHamburger } from '@payloadcms/ui/elements/Nav/NavHamburger'
 import { NavWrapper } from '@payloadcms/ui/elements/Nav/NavWrapper'
+import { Logout } from '@payloadcms/ui/elements/Logout'
 import './index.scss'
 import { DefaultNavClient } from './nav.client'
 
@@ -26,7 +27,10 @@ export const CustomNav: React.FC = () => {
         </div>
         <div className={`${baseClass}__footer`}>
           <div className={`${baseClass}__footer-content`}>
-            <div className={`${baseClass}__controls`}>{/* <Logout /> */}</div>
+            <div className={`${baseClass}__controls`}>
+              {' '}
+              <Logout />{' '}
+            </div>
           </div>
         </div>
       </NavWrapper>

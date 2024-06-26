@@ -40,7 +40,6 @@ export class CloudinaryService {
 
     const _opts = {
       ...this.options,
-      folder: this.options?.folder || '/media',
     }
     return new Promise((resolve, reject) => {
       const uploadStream = cloudinary.uploader.upload_stream(

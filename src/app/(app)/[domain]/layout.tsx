@@ -1,8 +1,10 @@
 import { getSiteFromDomain } from '@/frontend/actions'
 import CTA from '@/frontend/components/CTA'
+import config from '@/lib/tinybird/config'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import Script from 'next/script'
 import { ReactNode } from 'react'
 import { ToastContainer } from 'react-toastify'
 
@@ -69,6 +71,8 @@ export default async function SiteLayout({
 
   const site = await getSiteFromDomain(domain, !subdomain)
 
+  console.log('Domain', domain, subdomain)
+
   if (!site) {
     notFound()
   }
@@ -105,34 +109,30 @@ export default async function SiteLayout({
 
         <CTA />
       </div>
-      {/* <Script
+      <Script
         id="tinybird_tracker"
         dangerouslySetInnerHTML={{
           __html: `
             var script = document.createElement('script');
             script.defer = true;
             script.src = 'https://unpkg.com/@tinybirdco/flock.js';
-            script.setAttribute('data-host', '${
-              config.host ?? "https://api.us-east.tinybird.co"
-            }');
-            script.setAttribute('data-token', '${config.trackerToken ?? ""}');
-            script.setAttribute("tb_user_id", '${
-              data?.userId ?? ""
-            }'); // User ID to track tenants
+            script.setAttribute('data-host', '${config.host ?? 'https://api.us-east.tinybird.co'}');
+            script.setAttribute('data-token', '${config.trackerToken ?? ''}');
+            script.setAttribute("tb_user_id", '${site?.userId ?? ''}'); // User ID to track tenants
             script.setAttribute("tb_site_id", '${
-              data?.id ?? ""
+              site?.id ?? ''
             }'); // Site ID to track site relevant informations
             script.setAttribute("tb_sub_domain", '${
-              data?.subdomain ?? ""
+              site?.subdomain ?? ''
             }'); // Subdomain to track relevant redirections
             script.setAttribute("tb_custom_domain", '${
-              data?.customDomain ?? ""
+              site?.customDomain ?? ''
             }'); // Custom Domain to track relevant redirections
         
             document.body.appendChild(script);
           `,
         }}
-      /> */}
+      />
       <ToastContainer position="bottom-center" icon={false} />
     </>
   )

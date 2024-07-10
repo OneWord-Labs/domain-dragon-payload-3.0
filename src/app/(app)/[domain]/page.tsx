@@ -7,6 +7,7 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { format } from 'date-fns'
 import MoreStories from '@/frontend/components/MoreStories'
+import AnalyticsMockup from '@/components/analytics'
 
 const Page = async ({ params }: { params: { domain: string } }) => {
   let domain = decodeURIComponent(params.domain)

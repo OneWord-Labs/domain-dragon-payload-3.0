@@ -1,19 +1,18 @@
 'use server'
 
+import axios from 'axios'
+
 export const getSiteFromDomain = async (
   domain: string,
   customdomain: boolean,
 ): Promise<any | null> => {
   try {
-    const res = await fetch(
+    const res = await axios.get(
       customdomain
         ? `${process.env.NEXT_PAYLOAD_API_URL}/api/sites?where[customdomain][equals]=${domain}`
         : `${process.env.NEXT_PAYLOAD_API_URL}/api/sites?where[subdomain][equals]=${domain}`,
-      {
-        cache: 'no-cache',
-      },
     )
-    const data = await res.json()
+    const data = res.data
 
     return data.docs.length > 0 ? data.docs[0] : null
   } catch (err) {

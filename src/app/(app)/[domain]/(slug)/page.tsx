@@ -5,6 +5,7 @@ import MoreStories from '@/frontend/components/MoreStories'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import RichText from '@/components/RichText'
+import SiteAnalytics from '../analytics/page'
 
 export async function generateMetadata({
   params,
@@ -44,6 +45,7 @@ const Page = async ({ params }: { params: { domain: string; slug: string } }) =>
   const subdomain = domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN ?? 'localhost:3000'}`)
   domain = subdomain ? domain.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`, '') : domain
 
+  if (params?.slug === 'analytics') return <SiteAnalytics params={params} />
   const site = await getSiteFromDomain(domain, !subdomain)
   if (!site.id) {
     return notFound()

@@ -1,12 +1,17 @@
 'use server'
 
-import { getTenantKpiApi, getTenantKpiTotalApi, getTopSitesGrowthApi } from '@/lib/analytics'
-import { AreaChart, BadgeDelta, Card, Flex, Metric, Text } from '@tremor/react'
+import {
+  getTenantKpiApi,
+  getTenantKpiTotalApi,
+  getTopSitesGrowthApi,
+} from '@/lib/tinybird/analytics'
+import { BadgeDelta, Card, Flex, Metric, Text } from '@tremor/react'
+import Areachart from './areachart'
 
-export default async function OverviewStats() {
-  const kpiData = await getTenantKpiApi()
-  const kpiTotalData = await getTenantKpiTotalApi()
-  const sitesGrowthData = await getTopSitesGrowthApi()
+export default async function OverviewStats({ userId }: { userId: string }) {
+  const kpiData = await getTenantKpiApi(userId)
+  const kpiTotalData = await getTenantKpiTotalApi(userId)
+  const sitesGrowthData = await getTopSitesGrowthApi(userId)
 
   const chartData = (kpiData?.dates ?? []).map((date: any, index: number) => {
     const value = Math.max(
@@ -58,20 +63,22 @@ export default async function OverviewStats() {
             {((totalGrowth ?? 0) / (totalGrowthPrevious || 1)) * 100}%
           </BadgeDelta>
         </Flex>
-        <AreaChart
-          className="mt-6 h-28"
-          data={chartData}
-          index="date"
-          // valueFormatter={(number: number) =>
-          //   `${Intl.NumberFormat("us").format(number).toString()}`
-          // }
-          categories={['Total Visitors']}
-          colors={['blue']}
-          showXAxis={true}
-          showGridLines={false}
-          startEndOnly={true}
-          showYAxis={false}
-          showLegend={false}
+        <Areachart
+          labels={chartData?.map((d: any) => d.date)}
+          values={chartData?.map((d: any) => d['Total Visitors'])}
+          // className="mt-6 h-28"
+          // data={chartData}
+          // index="date"
+          // // valueFormatter={(number: number) =>
+          // //   `${Intl.NumberFormat("us").format(number).toString()}`
+          // // }
+          // categories={['Total Visitors']}
+          // colors={['blue']}
+          // showXAxis={true}
+          // showGridLines={false}
+          // startEndOnly={true}
+          // showYAxis={false}
+          // showLegend={false}
         />
       </Card>
     </div>

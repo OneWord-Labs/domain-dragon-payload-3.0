@@ -192,7 +192,7 @@ export function DataTable<TData, TValue>({ columns }: DataTableProps<TData, TVal
           </TableBody>
         </Table>
       </div>
-      <LoadingOverlay show={isLoading} loadingText="Loading Articles" />
+      <LoadingOverlay show={isLoading} loadingText="Loading Domains" />
       {/* <DataTablePagination table={table} /> */}
     </div>
   )

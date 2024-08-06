@@ -1,8 +1,5 @@
-import { mongooseAdapter } from '@payloadcms/db-mongodb'
-// import { payloadCloud } from '@payloadcms/plugin-cloud'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
-import { buildConfig } from 'payload/config'
 // import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 import { Logo } from './graphics/Logo'
@@ -15,11 +12,13 @@ import { CustomNav } from './payload/components/CustomNav'
 import { RegisterButton } from './payload/components/RegisterButton'
 import { ReactQueryProvider } from './payload/providers/ReactQueryProvider'
 import { Icon } from './graphics/Icon'
+import { buildConfig } from 'payload'
+import { postgresAdapter } from '@payloadcms/db-postgres'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-export const payloadConfig = {
+export default buildConfig({
   admin: {
     user: Users.slug,
     components: {
@@ -32,7 +31,7 @@ export const payloadConfig = {
       },
     },
   },
-
+  
   collections: [Users, Blogs, Sites, Domains, Media],
   editor: lexicalEditor({}),
   // plugins: [payloadCloud()], // TODO: Re-enable when cloud supports 3.0
@@ -40,10 +39,11 @@ export const payloadConfig = {
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
-  db: mongooseAdapter({
-    url: process.env.DATABASE_URI || '',
+  db: postgresAdapter({
+    pool: {
+      connectionString: process.env.DATABASE_URI,
+    },
   }),
-
   // Sharp is now an optional dependency -
   // if you want to resize images, crop, set focal point, etc.
   // make sure to install it and pass it to the config.
@@ -51,6 +51,4 @@ export const payloadConfig = {
   // This is temporary - we may make an adapter pattern
   // for this before reaching 3.0 stable
   // sharp,
-}
-
-export default buildConfig(payloadConfig)
+})

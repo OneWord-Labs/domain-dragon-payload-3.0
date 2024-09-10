@@ -1,13 +1,14 @@
 import { UploadApiResponse } from 'cloudinary'
-import { Config, Plugin } from 'payload/config'
-import { APIError } from 'payload/errors'
 import {
   Field,
   CollectionBeforeChangeHook,
   CollectionAfterDeleteHook,
   CollectionAfterReadHook,
   FieldBase,
-} from 'payload/types'
+  Config,
+  APIError,
+  Plugin,
+} from 'payload'
 
 import { CloudinaryPluginRequest, PluginConfig } from './types'
 import { CloudinaryService } from './cloudinaryService'
@@ -63,18 +64,19 @@ export const beforeChangeHook: CollectionBeforeChangeHook = async (args) => {
   if (!(file && args.data?.filename)) {
     return
   }
-
   try {
     const cloudinaryService = new CloudinaryService({}, {})
 
-    const uploadResponse = await cloudinaryService.upload(
-      args.data.filename,
-      file.data,
-      args.req.payload,
-    )
+    if (!args.data.url?.includes(args.data.filename) && file) {
+      const uploadResponse = await cloudinaryService.upload(file.name, file.data, args.req.payload)
+      return {
+        ...args.data,
+        [GROUP_NAME]: uploadResponse,
+      }
+    }
+
     return {
       ...args.data,
-      [GROUP_NAME]: uploadResponse,
     }
   } catch (e) {
     throw new APIError(`Cloudinary(beforeChange): ${JSON.stringify(e)}`)

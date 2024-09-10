@@ -1,5 +1,10 @@
-import path from 'path'
-import type { CollectionConfig } from 'payload/types'
+import {
+  FixedToolbarFeature,
+  InlineToolbarFeature,
+  lexicalEditor,
+} from '@payloadcms/richtext-lexical'
+import { UploadApiResponse } from 'cloudinary'
+import type { CollectionConfig } from 'payload'
 import {
   GROUP_NAME,
   afterDeleteHook,
@@ -7,15 +12,12 @@ import {
   beforeChangeHook,
   mapRequiredFields,
 } from './Cloudinary'
-import { UploadApiResponse } from 'cloudinary'
 
 export const Media: CollectionConfig = {
   slug: 'media',
-
   access: {
     read: () => true,
   },
-
   hooks: {
     beforeChange: [beforeChangeHook],
     afterDelete: [afterDeleteHook],
@@ -30,9 +32,13 @@ export const Media: CollectionConfig = {
     },
     {
       name: 'caption',
-      type: 'text',
+      type: 'richText',
+      editor: lexicalEditor({
+        features: ({ rootFeatures }) => {
+          return [...rootFeatures, FixedToolbarFeature(), InlineToolbarFeature()]
+        },
+      }),
     },
-
     {
       name: GROUP_NAME,
       type: 'group',

@@ -1,4 +1,4 @@
-import { Field, PayloadRequest } from 'payload/types'
+import { Field, PayloadRequest } from 'payload'
 import { CloudinaryService } from './cloudinaryService'
 
 export declare type PluginConfig = {

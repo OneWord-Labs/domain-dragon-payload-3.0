@@ -71,8 +71,6 @@ export default async function SiteLayout({
 
   const site = await getSiteFromDomain(domain, !subdomain)
 
-  console.log('Domain', domain, subdomain)
-
   if (!site) {
     notFound()
   }
@@ -118,7 +116,9 @@ export default async function SiteLayout({
             script.src = 'https://unpkg.com/@tinybirdco/flock.js';
             script.setAttribute('data-host', '${config.host ?? 'https://api.us-east.tinybird.co'}');
             script.setAttribute('data-token', '${config.trackerToken ?? ''}');
-            script.setAttribute("tb_user_id", '${site?.userId ?? ''}'); // User ID to track tenants
+            script.setAttribute("tb_user_id", '${
+              (typeof site?.user === 'object' ? site?.user?.id : site?.user) ?? ''
+            }'); // User ID to track tenants
             script.setAttribute("tb_site_id", '${
               site?.id ?? ''
             }'); // Site ID to track site relevant informations

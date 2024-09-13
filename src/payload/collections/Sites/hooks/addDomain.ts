@@ -26,7 +26,6 @@ export const addDomainToSite: CollectionBeforeChangeHook = async ({
         user: docsWithUser.user,
       },
     })
-    console.log('Created Domain', data.name, domain.id)
     await addDomainFunc(data.name)
 
     return {

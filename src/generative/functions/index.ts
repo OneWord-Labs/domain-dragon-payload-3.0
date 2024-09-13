@@ -21,7 +21,6 @@ const openai = createOpenAI({
 })
 
 export async function getTopicContext(topic: string) {
-  console.log(`Search Results For: ${topic}`)
   try {
     const context = await searchGoogle(topic, GOOGLE_API_KEY ?? '', GOOGLE_CONTEXT_ID ?? '')
     return context.join('\n')
@@ -40,15 +39,12 @@ export async function generateBlogSection(header: string, blogSection: string, c
     .replace('{CONTEXT}', context)
 
   try {
-    console.log(`Generating Blog Section: ${header}`)
-
     const { text } = await generateText({
       maxTokens: 1500,
       model: openai.chat('gpt-3.5-turbo-0125'),
       prompt: GENERATE_BLOG_SECTION_PROMPT,
       temperature: 0.7,
     })
-    console.log('SEEE', text)
 
     return text.trim()
   } catch (e) {
@@ -61,8 +57,6 @@ export function saveBlogSection(generatedBlog: string, header: string, numGenera
   const filePath = path.join('outputs', `draft_${numGenerated}.md`)
   try {
     fs.writeFileSync(filePath, generatedBlog)
-    console.log(`Blog Section: ${header}`)
-    console.log(generatedBlog)
   } catch (e) {
     console.error(`Error occurred while saving blog section ${header}: ${e}`)
   }
@@ -70,16 +64,9 @@ export function saveBlogSection(generatedBlog: string, header: string, numGenera
 
 export async function combineAndFinalizeDraft(generatedBlogs: string[], topic: string) {
   try {
-    console.log('Combining the generated blog sections into one')
     const entireDraft = generatedBlogs.join('\n\n')
 
-    console.log('Blog Draft')
-    console.log(entireDraft)
-
     const finalBlog = await generateFinalBlog(entireDraft, topic)
-    console.log('Done!')
-    console.log('Final Blog')
-    console.log(finalBlog)
     return finalBlog ?? ''
   } catch (e) {
     console.error(`Error occurred while finalizing blog: ${e}`)
@@ -90,10 +77,7 @@ export async function combineAndFinalizeDraft(generatedBlogs: string[], topic: s
 export async function runBloggpt(topicStr: string, blogOutline: string) {
   const topic = topicStr.trim()
   const context = await getTopicContext(topic)
-  console.log('topic', topic)
-  console.log('CONTEXT', context)
   const { blogSections, headers } = splitOutlinePrompt(blogOutline)
-  console.log('blogSections', blogSections, headers)
 
   const generatedBlogs = []
   for (let numGenerated = 0; numGenerated < headers.length; numGenerated++) {
@@ -102,13 +86,11 @@ export async function runBloggpt(topicStr: string, blogOutline: string) {
 
     const generatedBlog = await generateBlogSection(header, blogSection, context)
 
-    console.log('GENerated BL', generatedBlog)
     if (generatedBlog) {
       generatedBlogs.push(generatedBlog)
       // saveBlogSection(generatedBlog, header, numGenerated)
     }
   }
 
-  console.log('Gen', generatedBlogs)
   return await combineAndFinalizeDraft(generatedBlogs, topic)
 }

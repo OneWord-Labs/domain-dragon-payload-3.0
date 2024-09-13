@@ -21,10 +21,8 @@ import config from '@/payload.config'
 import { getTenantKpiTotalApi, getTopSitesGrowthApi } from '@/lib/tinybird/analytics'
 export const DomainsLayout = async (props: any) => {
   if (!props?.user?.id) return <></>
-  console.log('PROPS', props.user)
   const payload = await getPayload({ config: config })
   const isAdmin = props?.user?.roles?.includes('super-admin')
-  console.log('isAdmin ', isAdmin)
 
   const { totalCount, previousMonthCount, currentMonthCount, growth } = await getMonthlyGrowth({
     isAdmin,
@@ -211,10 +209,6 @@ const getMonthlyGrowth = async ({
   } else if (currentMonthCount > 0) {
     growth = 100 // If there were no records in the previous month but there are in the current month, growth is 100%
   }
-
-  console.log('Previous Month Count:', previousMonthCount)
-  console.log('Current Month Count:', currentMonthCount)
-  console.log('Growth:', growth.toFixed(2) + '%')
 
   return {
     totalCount,

@@ -38,7 +38,6 @@ export const generateContent = async (markdown: string): Promise<any> => {
     }),
   })
 
-  console.log('MAEK', markdown)
   headlessEditor.update(
     () => {
       $convertFromMarkdownString(markdown, yourSanitizedEditorConfig.features.markdownTransformers)
@@ -48,7 +47,6 @@ export const generateContent = async (markdown: string): Promise<any> => {
 
   // Do this if you then want to get the editor JSON
   const editorJSON = headlessEditor.getEditorState().toJSON() as any
-  console.log('editorJSON', editorJSON)
 
   return editorJSON
 }

@@ -1,5 +1,4 @@
-'use server'
-
+'use client'
 import {
   getSiteKpiApi,
   getTopLocationsApi,
@@ -9,14 +8,32 @@ import {
 import { TopLocationsSorting } from '@/lib/tinybird/types/top-locations'
 import { TopPagesSorting } from '@/lib/tinybird/types/top-pages'
 import { AreaChart, LineChart, BarList, Bold, Card, Flex, Grid, Text, Title } from '@tremor/react'
-import Areachart from './areachart'
 
-export default async function AnalyticsMockup({ siteId }: { siteId: string }) {
-  const kpiData = await getSiteKpiApi({ id: siteId ?? '' })
-  const topPagesData = await getTopPagesApi({ id: siteId ?? '' })
-  const topLocationData = await getTopLocationsApi({ id: siteId ?? '' })
-  const topSourcesData = await getTopSourcesApi({ id: siteId ?? '' })
+import { useDocumentInfo } from '@payloadcms/ui/providers/DocumentInfo'
+import Areachart from '@/components/areachart'
+import { useEffect, useState } from 'react'
 
+export const Analytics = () => {
+  const { id } = useDocumentInfo()
+
+  const [kpiData, setKpiData] = useState<any>()
+  const [topPagesData, setTopPagesData] = useState<any>()
+  const [topLocationData, setTopLocationData] = useState<any>()
+  const [topSourcesData, setTopSourcesData] = useState<any>()
+
+  useEffect(() => {
+    ;(async () => {
+      const kpi = await getSiteKpiApi({ id: id as string })
+      const topPages = await getTopPagesApi({ id: id as string })
+      const topLocation = await getTopLocationsApi({ id: id as string })
+      const topSources = await getTopSourcesApi({ id: id as string })
+
+      setKpiData(kpi)
+      setTopPagesData(topPages)
+      setTopLocationData(topLocation)
+      setTopPagesData(topSources)
+    })()
+  }, [])
 
   const chartData = (kpiData?.dates ?? []).map((date: any, index: number) => {
     const value = Math.max(
@@ -68,44 +85,44 @@ export default async function AnalyticsMockup({ siteId }: { siteId: string }) {
   return (
     <>
       <div className="grid gap-6">
-        <Card>
+        <Card className="dark:bg-[#2f2f2f]">
           <Title>Unique Visitors</Title>
 
           <div className=" h-64">
             <Areachart
-              labels={chartData?.map((data) => {
+              labels={chartData?.map((data: any) => {
                 return data?.date
               })}
-              values={chartData?.map((data) => {
+              values={chartData?.map((data: any) => {
                 return data?.Visitors
               })}
             />
           </div>
 
           {/* <LineChart
-            className="h-80"
-            data={chartdata}
-            index="date"
-            categories={['SolarPanels', 'Inverters']}
-            colors={['indigo', 'rose']}
-            // valueFormatter={dataFormatter}
-            yAxisWidth={60}
-            // onValueChange={(v) => console.log(v)}
-          /> */}
+              className="h-80"
+              data={chartdata}
+              index="date"
+              categories={['SolarPanels', 'Inverters']}
+              colors={['indigo', 'rose']}
+              // valueFormatter={dataFormatter}
+              yAxisWidth={60}
+              // onValueChange={(v) => console.log(v)}
+            /> */}
           {/* <AreaChart
-          className="mt-4 h-72"
-          data={chartData}
-          index="date"
-          categories={['Visitors']}
-          colors={['indigo']}
-          // valueFormatter={(number: number) =>
-          //   Intl.NumberFormat("us").format(number).toString()
-          // }
-        /> */}
+            className="mt-4 h-72"
+            data={chartData}
+            index="date"
+            categories={['Visitors']}
+            colors={['indigo']}
+            // valueFormatter={(number: number) =>
+            //   Intl.NumberFormat("us").format(number).toString()
+            // }
+          /> */}
         </Card>
         <Grid numItemsSm={2} numItemsLg={3} className="gap-6">
           {categories.map(({ title, subtitle, data }) => (
-            <Card key={title} className="max-w-lg">
+            <Card key={title} className="max-w-lg dark:bg-[#2f2f2f]">
               <Title>{title}</Title>
               <Flex className="mt-4">
                 <Text>

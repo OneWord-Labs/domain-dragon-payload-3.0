@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import ConfiguredSectionPlaceholder from './ConfiguredSectionPlaceholder'
+import { Button } from '@/components/ui/button'
 
 function getVerificationError(verificationResponse: any) {
   try {
@@ -24,7 +25,7 @@ const ConfiguredSection = ({ domainInfo }: { domainInfo?: any }) => {
     const txtVerification = domainInfo?.verification?.find((x: any) => x?.type === 'TXT')
     return (
       <>
-        <div className="flex items-center space-x-3 my-3 px-2 sm:px-10">
+        <div className="flex items-center space-x-3 my-3 px-2 sm:px-10 w-full">
           <svg
             viewBox="0 0 24 24"
             width="24"
@@ -48,7 +49,9 @@ const ConfiguredSection = ({ domainInfo }: { domainInfo?: any }) => {
             <div
               onClick={() => setRecordType('CNAME')}
               className={`${
-                recordType == 'CNAME' ? 'text-black border-black' : 'text-gray-400 border-white'
+                recordType == 'CNAME'
+                  ? 'text-black border-black dark:text-gray-400 dark:border-white'
+                  : 'text-gray-400 border-white dark:text-black dark:border-black'
               } text-sm border-b-2 pb-1 transition-all ease duration-150`}
             >
               Verify Domain Ownership
@@ -92,8 +95,8 @@ const ConfiguredSection = ({ domainInfo }: { domainInfo?: any }) => {
   }
 
   return (
-    <>
-      <div className="flex items-center space-x-3 my-3 px-2 sm:px-10">
+    <div className="w-full">
+      <div className="flex items-center justify-center space-x-3 my-3 px-2 sm:px-10 w-full">
         <svg
           viewBox="0 0 24 24"
           width="24"
@@ -116,8 +119,10 @@ const ConfiguredSection = ({ domainInfo }: { domainInfo?: any }) => {
           )}
         </svg>
         <p
-          className={`${
-            domainInfo?.configured ? 'text-black font-normal' : 'text-red-700 font-medium'
+          className={` p-0 m-0 w-full ${
+            domainInfo?.configured
+              ? 'text-black dark:text-white font-normal'
+              : 'text-red-700 font-medium'
           } text-sm`}
         >
           {domainInfo?.configured ? 'Valid' : 'Invalid'} Configuration
@@ -130,28 +135,32 @@ const ConfiguredSection = ({ domainInfo }: { domainInfo?: any }) => {
 
           <div className="px-2 sm:px-10">
             <div className="flex justify-start space-x-4">
-              <button
+              <Button
                 onClick={() => setRecordType('CNAME')}
                 className={`${
-                  recordType == 'CNAME' ? 'text-black border-black' : 'text-gray-400 border-white'
+                  recordType == 'CNAME'
+                    ? 'text-black border-black dark:text-gray-400 dark:border-white'
+                    : 'text-gray-400 border-white dark:text-black dark:border-black'
                 } text-sm border-b-2 pb-1 transition-all ease duration-150`}
               >
                 CNAME Record (subdomains)
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={() => setRecordType('A')}
                 className={`${
-                  recordType == 'A' ? 'text-black border-black' : 'text-gray-400 border-white'
+                  recordType == 'A'
+                    ? 'text-black border-black dark:text-gray-400 dark:border-white'
+                    : 'text-gray-400 border-white dark:text-black dark:border-black'
                 } text-sm border-b-2 pb-1 transition-all ease duration-150`}
               >
                 A Record (apex domain)
-              </button>
+              </Button>
             </div>
             <div className="my-3 text-left">
               <p className="my-5 text-sm">
                 Set the following record on your DNS provider to continue:
               </p>
-              <div className="flex justify-start items-center space-x-10 bg-gray-50 p-2 rounded-md">
+              <div className="flex justify-start items-center space-x-10 bg-gray-50 dark:bg-[#2f2f2f] p-2 rounded-md">
                 <div>
                   <p className="text-sm font-bold">Type</p>
                   <p className="text-sm font-mono mt-2">{recordType}</p>
@@ -171,7 +180,7 @@ const ConfiguredSection = ({ domainInfo }: { domainInfo?: any }) => {
           </div>
         </>
       )}
-    </>
+    </div>
   )
 }
 

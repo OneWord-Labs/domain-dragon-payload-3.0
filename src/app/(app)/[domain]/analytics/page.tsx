@@ -19,9 +19,7 @@ export default async function SiteAnalytics({
   const subdomain = domain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN ?? 'localhost:3000'}`)
   domain = subdomain ? domain.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`, '') : domain
 
-  console.log('DD', domain, subdomain)
   const site = await getSiteFromDomain(domain, !subdomain)
-  console.log('SITE', site)
 
   if (!site) {
     notFound()
@@ -46,7 +44,7 @@ export default async function SiteAnalytics({
           </a>
         </div>
       </div>
-      <AnalyticsMockup siteId={params.slug} />
+      <AnalyticsMockup siteId={site.id} />
     </>
   )
 }

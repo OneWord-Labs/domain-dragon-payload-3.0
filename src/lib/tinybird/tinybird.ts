@@ -21,7 +21,7 @@ const arrayHasCurrentDate = (dates: string[], isHourlyGranularity: boolean) => {
 
 export async function getKpis(
   kpi: KpiType,
-  user_id: string,
+  user_id?: string,
   site_id?: string,
   date_from?: string,
   date_to?: string,

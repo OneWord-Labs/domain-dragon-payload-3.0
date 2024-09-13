@@ -12,6 +12,7 @@ export const getSiteFromDomain = async (
         ? `${process.env.NEXT_PAYLOAD_API_URL}/api/sites?where[customdomain][equals]=${domain}`
         : `${process.env.NEXT_PAYLOAD_API_URL}/api/sites?where[subdomain][equals]=${domain}`,
     )
+
     const data = res.data
 
     return data.docs.length > 0 ? data.docs[0] : null

@@ -28,7 +28,6 @@ export async function generateFinalBlog(
       temperature: 0.5,
     })
     const finalBlog = text
-    console.log('Tet', text)
 
     // Save the blog in a markdown file
     // fs.writeFileSync('bloggpt/outputs/blog.md', finalBlog)

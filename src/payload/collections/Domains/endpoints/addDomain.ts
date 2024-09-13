@@ -31,7 +31,6 @@ export const addDomainFunc = async (domain: string) => {
 
     const data = await response.json()
 
-    console.log('Data', data, domain)
     return data
   } catch (err) {
     console.log('Error managing domain to vercel', err)

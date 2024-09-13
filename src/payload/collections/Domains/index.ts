@@ -9,6 +9,7 @@ import { importDomains } from './endpoints/importDomains'
 import { removeDomain } from './endpoints/removeDomain'
 import { verifyDomain } from './endpoints/verifyDomain'
 import { DomainsLayout } from './ui'
+import { Analytics } from './ui/Analytics'
 const baseUrl = ''
 const Domains: CollectionConfig = {
   slug: 'domains',
@@ -94,6 +95,15 @@ const Domains: CollectionConfig = {
         readOnly: true,
       },
     },
+    {
+      name: 'analytics',
+      type: 'ui',
+      admin: {
+        components: {
+          Field: Analytics,
+        },
+      },
+    },
   ],
   access: {
     read: adminOrOwner,
@@ -173,10 +183,6 @@ const Domains: CollectionConfig = {
         ])
         const configJson = await configResponse.json()
         const domainJson = await domainResponse.json()
-        console.log({
-          configJson,
-          domainJson,
-        })
 
         return new Response(JSON.stringify({ configJson, domainJson }))
       },

@@ -16,16 +16,19 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
   const id = (row.original as any).id
   return (
     <div className="flex items-center gap-2">
-      <Button size="icon" variant="ghost">
-        <EyeIcon className="" />
-        <Link href={`/admin/collections/domains/${id}`}>
+      <Link href={(row.original as any)?.name ?? ''}>
+        <Button size="icon" variant="ghost">
+          <EyeIcon className="" />
           <span className="sr-only">View</span>
-        </Link>
-      </Button>
-      <Button size="icon" variant="ghost">
-        <GaugeIcon className="" />
-        <span className="sr-only">Edit</span>
-      </Button>
+        </Button>
+      </Link>
+
+      <Link href={`/admin/collections/domains/${id}`}>
+        <Button size="icon" variant="ghost">
+          <GaugeIcon className="" />
+          <span className="sr-only">Edit</span>
+        </Button>
+      </Link>
       <Button size="icon" variant="ghost">
         <TrashIcon className="h-4 w-4" />
         <span className="sr-only">Delete</span>

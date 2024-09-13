@@ -164,7 +164,6 @@ export const createBlog = async (site: any, payload: Payload) => {
         slug: idea,
       },
     })
-    console.log('AWESOME BLOG CREATED')
   } catch (err: any) {
     payload.logger.error(err)
     throw err

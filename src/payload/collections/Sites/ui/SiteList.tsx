@@ -18,7 +18,7 @@ import {
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
-const fetchSize = 10
+const fetchSize = 50
 export const SiteList = () => {
   const tableContainerRef = useRef<any>(null)
 
@@ -83,7 +83,7 @@ export const SiteList = () => {
     >
       {flatData?.map((data: any, index: number) => {
         return (
-          <Card className="shadow-md" key={index}>
+          <Card className="shadow-md dark:bg-[#2f2f2f]" key={index}>
             <CardHeader className="flex flex-col items-center justify-center p-6">
               {data?.logo?.url ? (
                 <img src={data?.logo?.url} width={200} height={200} alt="LOGO" />
@@ -94,8 +94,8 @@ export const SiteList = () => {
                 </>
               )}
             </CardHeader>
-            <CardContent className="p-4">
-              <Link href={`/admin/collections/sites/${data.id}`}>
+            <CardContent className="p-4 overflow-hidden">
+              <Link href={`/admin/collections/sites/${data.id}`} className="no-underline">
                 <h2 className="font-semibold mb-1">{data?.customdomain}</h2>
                 <p className="text-sm text-muted-foreground mb-2">{data?.subdomain}</p>
               </Link>

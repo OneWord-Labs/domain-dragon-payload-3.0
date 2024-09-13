@@ -29,9 +29,9 @@ export const columns: ColumnDef<Domain>[] = [
 
       return (
         <div className="flex space-x-2 gap-8">
-          <Badge className="text-red-500" variant="default">
+          {/* <Badge className="text-red-500" variant="default">
             {status === 'notActive' ? 'Not Active' : 'Active'}
-          </Badge>
+          </Badge> */}
           <DomainCard domain={name ?? ''} />
 
           <div className="text-sm text-gray-500 dark:text-gray-400" />

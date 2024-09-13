@@ -49,7 +49,6 @@ export default async function OverviewStats({ userId }: { userId: string }) {
   //   ];
   // }, []);
 
-  console.log('KP', kpiTotalData)
   return (
     <div className="grid gap-6 sm:grid-cols-2">
       <Card className="dark:!bg-stone-900">

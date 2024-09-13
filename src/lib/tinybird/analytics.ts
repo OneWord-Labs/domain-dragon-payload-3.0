@@ -27,12 +27,12 @@ export const getTenantKpiTotalApi = async (userId: string) => {
   return { avg_session_sec, pageviews, visits, bounce_rate }
 }
 
-export const getSiteKpiApi = async (site: any) => {
+export const getSiteKpiApi = async (site: { id: string; userId?: string }) => {
   const { data, dates } = await getKpis('visits', site?.userId ?? '', site?.id)
   return { data, dates }
 }
 
-export const getSiteKpiTotalApi = async (site: any) => {
+export const getSiteKpiTotalApi = async (site: { id: string; userId?: string }) => {
   const { avg_session_sec, pageviews, visits, bounce_rate } = await getKpiTotals(
     site?.userId ?? '',
     site?.id,
@@ -41,25 +41,25 @@ export const getSiteKpiTotalApi = async (site: any) => {
   return { avg_session_sec, pageviews, visits, bounce_rate }
 }
 
-export const getTopBrowserApi = async (site: any) => {
+export const getTopBrowserApi = async (site: { id: string; userId?: string }) => {
   const { data } = await getTopBrowsers(site?.userId ?? '', site?.id)
 
   return { data }
 }
 
-export const getTrendApi = async (site: any) => {
+export const getTrendApi = async (site: { id: string; userId?: string }) => {
   const { visits, dates, totalVisits, data } = await getTrend(site?.userId ?? '', site?.id)
 
   return { visits, dates, totalVisits, data }
 }
 
-export const getTopSourcesApi = async (site: any) => {
+export const getTopSourcesApi = async (site: { id: string; userId?: string }) => {
   const { data, refs, visits } = await getTopSources(site?.userId ?? '', site?.id)
 
   return { data, refs, visits }
 }
 
-export const getTopPagesApi = async (site: any) => {
+export const getTopPagesApi = async (site: { id: string; userId?: string }) => {
   const { data, columns, pages, labels } = await getTopPages(
     TopPagesSorting.Pageviews,
     site?.userId ?? '',
@@ -69,7 +69,7 @@ export const getTopPagesApi = async (site: any) => {
   return { data, columns, pages, labels }
 }
 
-export const getTopLocationsApi = async (site: any) => {
+export const getTopLocationsApi = async (site: { id: string; userId?: string }) => {
   const { data, locations, labels } = await getTopLocations(
     TopLocationsSorting.Pageviews,
     site?.userId ?? '',
@@ -79,7 +79,7 @@ export const getTopLocationsApi = async (site: any) => {
   return { data, locations, labels }
 }
 
-export const getTopDevicesApi = async (site: any) => {
+export const getTopDevicesApi = async (site: { id: string; userId?: string }) => {
   const { data } = await getTopDevices(site?.userId ?? '', site?.id)
 
   return { data }
